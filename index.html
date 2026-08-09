@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정유석 — 검증을 도구로 만드는 엔지니어</title>
+<style>
+  :root{
+    --ink:#12161c; --ink-2:#39424e; --ink-3:#6b7684;
+    --line:#e2e6ec; --line-2:#cfd6df;
+    --bg:#ffffff; --bg-2:#f7f9fb; --bg-3:#eef2f6;
+    --band:#0f1621; --band-2:#1b2635;
+    --accent:#0b6b6b; --accent-soft:#e3f2f1;
+    --amber:#8a5a00; --amber-soft:#fdf3e0;
+    --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg-2);line-height:1.72;
+       -webkit-font-smoothing:antialiased;font-size:16px;word-break:keep-all}
+  .wrap{max-width:960px;margin:0 auto;background:var(--bg);
+        box-shadow:0 1px 3px rgba(16,24,40,.06),0 12px 40px rgba(16,24,40,.06)}
+
+  /* ---------- header band ---------- */
+  header{background:var(--band);color:#fff;padding:52px 48px 44px;
+         background-image:linear-gradient(180deg,#0f1621 0%,#141d2a 100%)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+           color:#6fb3b3;margin-bottom:16px}
+  h1{font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:6px}
+  h1 .en{font-size:18px;font-weight:400;color:#8f9bab;letter-spacing:0;margin-left:10px}
+  .claim{font-size:20px;font-weight:600;color:#e8edf3;margin:20px 0 14px;line-height:1.55;
+         max-width:660px;letter-spacing:-.01em}
+  .claim em{font-style:normal;color:#7fd4d0;box-shadow:inset 0 -.55em 0 rgba(127,212,208,.13)}
+  .sub{color:#9aa7b6;font-size:14.5px;max-width:660px}
+  .meta{margin-top:26px;padding-top:20px;border-top:1px solid #2a3442;
+        display:flex;flex-wrap:wrap;gap:10px 26px;font-size:13px;color:#8f9bab}
+  .meta a{color:#9fc9c7;text-decoration:none;border-bottom:1px solid #3a4a52}
+  .meta a:hover{color:#7fd4d0}
+  .meta b{color:#c8d2dd;font-weight:600}
+
+  /* ---------- sections ---------- */
+  section{padding:44px 48px;border-bottom:1px solid var(--line)}
+  section:last-child{border-bottom:0}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:26px}
+  .sec-num{font-family:var(--mono);font-size:11.5px;color:var(--accent);letter-spacing:.1em;
+           padding-top:2px;flex:none}
+  h2{font-size:19px;font-weight:700;letter-spacing:-.01em}
+  .sec-note{font-size:13px;color:var(--ink-3);margin-left:auto;text-align:right}
+
+  /* ---------- stat strip ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+         border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .stat{background:var(--bg);padding:20px 18px}
+  .stat .n{font-family:var(--mono);font-size:25px;font-weight:600;color:var(--accent);
+           letter-spacing:-.02em;line-height:1.15}
+  .stat .n small{font-size:14px;font-weight:500}
+  .stat .l{font-size:12.5px;color:var(--ink-2);margin-top:7px;line-height:1.5}
+  .stat .src{font-size:11px;color:var(--ink-3);margin-top:5px;font-family:var(--mono)}
+
+  /* ---------- thesis ---------- */
+  .thesis{font-size:15.5px;color:var(--ink-2);max-width:760px}
+  .thesis p+p{margin-top:14px}
+  .thesis strong{color:var(--ink);font-weight:600}
+  .chain{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+         font-size:12.5px;font-family:var(--mono)}
+  .chain span{background:var(--accent-soft);color:#0a5a5a;padding:6px 11px;border-radius:4px;
+              border:1px solid #c9e4e2}
+  .chain i{color:var(--line-2);font-style:normal;font-size:14px}
+
+  /* ---------- timeline ---------- */
+  .tl{position:relative;padding-left:22px}
+  .tl::before{content:"";position:absolute;left:4px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .tl-row{position:relative;display:grid;grid-template-columns:132px 1fr;gap:20px;
+          padding:11px 0;font-size:14px;align-items:baseline}
+  .tl-row::before{content:"";position:absolute;left:-22px;top:19px;width:10px;height:10px;
+                  border-radius:50%;background:var(--bg);border:2px solid var(--line-2)}
+  .tl-row.now::before{background:var(--accent);border-color:var(--accent)}
+  .tl-when{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+  .tl-what b{font-weight:600}
+  .tl-what span{color:var(--ink-3);font-size:13px}
+
+  /* ---------- project cards ---------- */
+  .proj{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg);
+        margin-bottom:20px}
+  .proj:last-child{margin-bottom:0}
+  .proj-head{padding:22px 26px 18px;background:var(--bg-2);border-bottom:1px solid var(--line)}
+  .proj-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px}
+  .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+       padding:3px 8px;border-radius:3px;background:var(--bg-3);color:var(--ink-2);
+       border:1px solid var(--line-2)}
+  .tag.hero{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .tag.warn{background:var(--amber-soft);color:var(--amber);border-color:#e8d5ab}
+  h3{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.4}
+  h3 .org{display:block;font-size:12.5px;font-weight:500;color:var(--ink-3);
+          font-family:var(--mono);margin-top:6px;letter-spacing:0}
+  .oneline{margin-top:12px;font-size:15px;color:var(--ink-2);font-weight:500;line-height:1.6}
+  .proj-body{padding:22px 26px 24px}
+  .blk{margin-bottom:20px}
+  .blk:last-child{margin-bottom:0}
+  .blk-t{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+         color:var(--accent);margin-bottom:8px}
+  .blk p{font-size:14.5px;color:var(--ink-2);line-height:1.75}
+  .blk p+p{margin-top:10px}
+  .blk code{font-family:var(--mono);font-size:13px;background:var(--bg-3);padding:1.5px 5px;
+            border-radius:3px;color:var(--ink)}
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;
+      background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .kv.k4{grid-template-columns:repeat(2,1fr)}
+  .kv div{background:var(--bg-2);padding:13px 15px}
+  .kv b{display:block;font-family:var(--mono);font-size:16px;color:var(--accent);
+        font-weight:600;letter-spacing:-.01em}
+  .kv span{display:block;font-size:12.5px;color:var(--ink-2);margin-top:4px;line-height:1.5}
+  .stack{display:flex;flex-wrap:wrap;gap:6px}
+  .stack span{font-family:var(--mono);font-size:12px;color:var(--ink-2);background:var(--bg-3);
+              padding:4px 9px;border-radius:3px}
+  .caveat{font-size:13px;color:var(--amber);background:var(--amber-soft);border:1px solid #eedcb8;
+          border-left:3px solid var(--amber);border-radius:4px;padding:11px 14px;line-height:1.65}
+
+  /* ---------- skills / credentials ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .lane-t{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+          color:var(--ink-3);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .lane p{font-size:14px;color:var(--ink-2);line-height:1.8}
+  .lane p+p{margin-top:9px}
+  .lane b{color:var(--ink);font-weight:600}
+  .patent{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);margin-top:5px}
+
+  footer{padding:26px 48px;background:var(--bg-2);font-size:12.5px;color:var(--ink-3);
+         display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer .note{font-family:var(--mono)}
+
+  @media (max-width:760px){
+    header,section,footer{padding-left:24px;padding-right:24px}
+    h1{font-size:26px}
+    .claim{font-size:17px}
+    .stats{grid-template-columns:1fr 1fr}
+    .kv.k4{grid-template-columns:1fr}
+    .grid2{grid-template-columns:1fr}
+    .tl-row{grid-template-columns:1fr;gap:2px}
+    .sec-note{margin-left:0;text-align:left;width:100%}
+    .sec-head{flex-wrap:wrap}
+  }
+  @media print{
+    body{background:#fff;font-size:12px}
+    .wrap{box-shadow:none;max-width:none}
+    header{background:var(--band)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .proj{break-inside:avoid;page-break-inside:avoid}
+    section{padding:24px 0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Pre-Silicon Verification &amp; Tooling</div>
+  <h1>정유석<span class="en">Yuseok Jeong</span></h1>
+  <p class="claim">사람이 며칠 걸려 손으로 읽던 검증을,<br><em>반복 가능한 자동 파이프라인</em>으로 바꿉니다.</p>
+  <p class="sub">삼성전자 Device Solutions에서 2020년부터 SoC 설계 탐색 플랫폼, 파형 기반 프로파일링 툴체인,
+     펌웨어 검증 모델을 만들어 왔습니다. 공통점은 하나입니다 — 실리콘이 나오기 전에 답을 얻는 도구.</p>
+  <div class="meta">
+    <span><b>삼성전자</b> Device Solutions · 2020.03~</span>
+    <span>성균관대 반도체시스템공학 학사</span>
+    <a href="https://www.linkedin.com/in/yuseok-jeong/">linkedin.com/in/yuseok-jeong</a>
+    <a href="mailto:jus8710@gmail.com">jus8710@gmail.com</a>
+  </div>
+</header>
+
+<!-- ============ 01 서사 ============ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <h2>무엇을 하는 사람인가</h2>
+  </div>
+  <div class="thesis">
+    <p>SoC가 복잡해질수록 소프트웨어 개발은 실리콘이 나오기 전으로 당겨집니다. 그런데 그 구간에는
+       도구가 비어 있습니다. <strong>소프트웨어 프로파일러는 "돌아가는 기계"를 전제하고, 하드웨어 검증 도구는
+       "신호를 보고 싶어 한다"고 전제합니다.</strong> 정작 "이 워크로드가 느린데 원인이 SW인가 HW인가,
+       그리고 어디인가"라는 질문에는 아무도 답하지 않습니다.</p>
+    <p>제가 만들고, 함께 다듬어 온 것들은 전부 그 빈칸을 메우는 도구였습니다. 파형에서 소프트웨어 프로파일을 복원하고,
+       설정 파일의 값이 실제로 검증된 영역 안에 있는지 DV 코드로 대조하고, 펌웨어가 런타임에 계산할 값을
+       독립 모델로 미리 재현합니다. <strong>공통 원리는 하나입니다 — 숙련자의 판단을 문서가 아니라
+       실행 가능한 파이프라인으로 옮기는 것.</strong></p>
+    <div class="chain">
+      <span>RTL 파형 → SW 프로파일</span><i>→</i>
+      <span>설정값 검증 자동화</span><i>→</i>
+      <span>FW 레퍼런스 모델</span><i>→</i>
+      <span>성능 병목 정량화</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 타임라인 ============ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <h2>경로</h2>
+    <span class="sec-note">현재 사내벤처와 센서설계 조직 과제를 병행</span>
+  </div>
+  <div class="tl">
+    <div class="tl-row now">
+      <div class="tl-when">2026</div>
+      <div class="tl-what"><b>API Register 검증영역 표준화</b>
+        <span>— 고객 전달용 검증영역 표준 산출물 체계 (겸직 과제 · 주도)</span></div>
+    </div>
+    <div class="tl-row now">
+      <div class="tl-when">2026</div>
+      <div class="tl-what"><b>HW-SW Co-Optimization Toolchain</b>
+        <span>— 파형 PC 신호에서 함수별 SW 프로파일 복원</span></div>
+    </div>
+    <div class="tl-row now">
+      <div class="tl-when">2024 — 현재</div>
+      <div class="tl-what"><b>ArchXplorer</b> · SoC 설계 탐색 플랫폼 (사내벤처)
+        <span>— 트랜잭션 레벨 시뮬레이터 · RTL 제너레이터 · 디버거</span></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-when">2022 — 2024</div>
+      <div class="tl-what"><b>Software Architecture Lab</b>
+        <span>— Fab 시뮬레이터 최적화 · 장비 데이터 파이프라인</span></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-when">2020 — 2022</div>
+      <div class="tl-what"><b>IT Strategy Group</b>
+        <span>— DS 부문 엔터프라이즈 아키텍처 · IT 거버넌스</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 프로젝트 ============ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2>프로젝트</h2>
+    <span class="sec-note">사내 식별자 · 코드명 · 고객 정보는 모두 제외</span>
+  </div>
+
+  <!-- P1 -->
+  <article class="proj">
+    <div class="proj-head">
+      <div class="proj-tags">
+        <span class="tag hero">사내벤처 · 런칭</span><span class="tag">TLM 시뮬레이터</span>
+        <span class="tag">RISC-V FW</span><span class="tag">DevOps</span><span class="tag">C++</span>
+      </div>
+      <h3>ArchXplorer — SoC 설계 탐색 플랫폼
+        <span class="org">사내벤처 제품 · 2024 — 현재 · <a href="archxplorer.html" style="color:var(--accent)">상세 보기 →</a></span></h3>
+      <p class="oneline">트랜잭션 레벨 시뮬레이터와 웹 서비스로 초기 단계 PPA 프로파일링과 FW 개발을 가능하게 한 제품.</p>
+    </div>
+    <div class="proj-body">
+      <div class="blk">
+        <div class="blk-t">결과</div>
+        <div class="kv">
+          <div><b>설계팀 · 연구소 실사용</b><span>Milestone별 IP 모델링·샘플 제공. TG interrupt timing 기반 ISR 검증에 연구소 적극 활용</span></div>
+          <div><b>정확도 +15%</b><span>FW 전체 실행 cycle 시간 비교로 측정 (측정 체계 추후 고도화 예정)</span></div>
+          <div><b>부팅 시간 −25%</b><span>인터럽트 컨트롤러·ISR의 선택적 초기화를 디버깅·최적화 (RISC-V 테스트 FW)</span></div>
+        </div>
+      </div>
+      <div class="blk">
+        <div class="blk-t">검증 축 — Mocking 기반 동작 점검</div>
+        <p>TLM 정확도의 구조적 한계를 인정하는 대신, 검증 기준을 <strong>"FW의 ISR이 적절한 시점에 도는가"</strong>로
+           잡았습니다. 원하는 시뮬레이션 타임에 interrupt·bus IO·I2C 데이터를 주입하고 결과를 확인하는
+           mocking tool(host_communicator) 중심의 점검 체계입니다. 최근에는 <strong>FW 선개발과
+           coverage 확보를 위한 사전 플랫폼</strong>이라는 use case로 플랫폼의 의미를 넓혀가는 중입니다.</p>
+      </div>
+      <div class="blk">
+        <div class="blk-t">그 외</div>
+        <p>NCA Simulator, RTL Generator, 원격 Debugger로 플랫폼을 구성하고, 아키텍처 구성·프로파일링·
+           원격 디버깅용 UI와 API를 개발했습니다. Cypress·GTest·GitHub Actions·Docker로 제품 신뢰성을
+           담보하는 DevOps 파이프라인을 구축했습니다.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="proj-head">
+      <div class="proj-tags">
+        <span class="tag hero">본인 주도 · 진행 중</span><span class="tag">이미지 센서</span>
+        <span class="tag">검증영역 표준화</span><span class="tag">YAML · Python</span>
+      </div>
+      <h3>Client용 API Register 검증영역 표준화
+        <span class="org">센서설계 조직 겸직 과제 · 2026 · <a href="api-register.html" style="color:var(--accent)">상세 보기 →</a></span></h3>
+      <p class="oneline">고객의 애매한 요구에서 진짜 질문을 꺼내, 암묵지였던 검증영역을 표준 산출물로 바꾸는 중이다.</p>
+    </div>
+    <div class="proj-body">
+      <div class="blk">
+        <div class="blk-t">문제 정의 — 내 기여의 시작점</div>
+        <p>고객(AP 측)의 요청은 "API register 세팅 가이드를 달라"였지만, 실제 질문은
+           <strong>"검증 수준이 어디까지인가"</strong>였고 조직에는 그 답을 전달할 프로세스가 없었습니다.
+           나는 이를 <strong>FW / DV / Solution constraint의 3계층 모델</strong>로 분해하고, 레지스터 간
+           정합성 수식(Frame Length·Exposure Time 등)은 constraint가 아닌 별도 Guide 층위로 분리했습니다.</p>
+      </div>
+      <div class="blk">
+        <div class="blk-t">산출물</div>
+        <p>1차: 기계판독형이되 사람이 읽을 수 있는 <strong>YAML + 수동 열람용 HTML</strong> (구현).
+           2차: 고객 setfile의 값 유효성을 자동 판정하는 <strong>Python 확장</strong> (진행 중).
+           3차: 정합성 수식까지 반영한 세팅 가이드 (타당성 검토 중).
+           DV 코드에 naming rule을 도입해 추출 자체가 필요 없어지는 <strong>프로세스 표준화</strong>를 함께 제안하고 있습니다.</p>
+      </div>
+      <div class="blk">
+        <div class="blk-t">도메인 기반</div>
+        <p>이 프로젝트의 밑천은 센서 FW 타이밍 도메인 분석입니다 — 프레임 타이밍 레퍼런스 모델 체계,
+           제어/데이터 버스 분리 구조, 임베디드 메타데이터의 전송 효율 영향(대부분 0.1% 이하) 등을
+           정량 분석하며 쌓은 지식이 계층 모델 설계의 근거가 됐습니다.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="proj-head">
+      <div class="proj-tags">
+        <span class="tag">Pre-Silicon</span><span class="tag">SW Coverage</span>
+        <span class="tag">Callgrind</span><span class="tag warn">팀 과제 — 요구사항 정의로 참여</span>
+      </div>
+      <h3>HW-SW Co-Optimization Toolchain
+        <span class="org">WaveScope + Performance Profiler · 2026 · <a href="toolchain.html" style="color:var(--accent)">상세 보기 →</a></span></h3>
+      <p class="oneline">RTL 파형의 PC 신호만으로 SW 프로파일을 복원하는 팀 과제 — 사용자 관점의 요구를 정의하고 다음 단계를 설계했다.</p>
+    </div>
+    <div class="proj-body">
+      <div class="blk">
+        <div class="blk-t">역할과 기여</div>
+        <p>메이저 개발은 팀 동료의 작업이고, 나는 실사용자 자리에서 <strong>도구가 답해야 할 질문을
+           정의하는 역할</strong>로 참여했습니다 — SW coverage 단일 지표, 다중 런 병합·비교 중심,
+           파일로 남아 공유·재분석 가능한 결과. DV 현장의 coverage 니즈를 요구사항으로 번역해 전달했습니다.</p>
+      </div>
+      <div class="blk">
+        <div class="blk-t">넥스트 아이템 — 내 제안</div>
+        <p>복원된 PC 트레이스를 NCA류 <strong>트랜잭션 레벨 표현으로 변환</strong>해 DV 엔지니어가
+           system flow 전체를 이해하게 하는 다음 단계를 제안했습니다. ArchXplorer의 TLM 모델링 경험과
+           SW coverage 사용자 요구가 만나는 교차점의 아이템입니다.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="proj-head">
+      <div class="proj-tags">
+        <span class="tag">성능 최적화</span><span class="tag">C++</span>
+        <span class="tag">Kafka</span><span class="tag">개발자 도구</span>
+      </div>
+      <h3>Fab 시뮬레이터 &amp; 장비 데이터 파이프라인
+        <span class="org">Software Architecture Lab · 2022 — 2024</span></h3>
+      <p class="oneline">성능·메모리 분석으로 병목을 규명하고, 관측 도구를 직접 만들어 팀의 눈을 밝혔다.</p>
+    </div>
+    <div class="proj-body">
+      <div class="blk">
+        <div class="blk-t">결과</div>
+        <div class="kv">
+          <div><b>시뮬레이터 속도 +300%</b><span>정적 메모리 할당, 메모리 지역성이 높은 자료구조, 분기 예측 힌팅 개선</span></div>
+          <div><b>데이터 손실 −45%</b><span>장비 데이터 수집 시스템에 Kafka 메시지 프레임워크 적용</span></div>
+        </div>
+      </div>
+      <div class="blk">
+        <div class="blk-t">개발자 도구</div>
+        <p>자료구조 디버그 비주얼라이저, 덤프 검증기, 코드 제너레이터, 트레이스 로거를 직접 만들어
+           관측성과 생산성을 높였습니다. "측정할 수 없으면 개선할 수 없다"를 도구로 해결하는 방식이
+           이때 자리 잡았고, 이후 프로젝트로 그대로 이어집니다.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="proj-head">
+      <div class="proj-tags"><span class="tag">엔터프라이즈 아키텍처</span><span class="tag">IT 거버넌스</span></div>
+      <h3>전사 IT 아키텍처 &amp; 거버넌스
+        <span class="org">IT Strategy Group · 2020 — 2022</span></h3>
+      <p class="oneline">DS 부문의 엔터프라이즈 아키텍처를 수립하고 IT 거버넌스를 운영했다.</p>
+    </div>
+    <div class="proj-body">
+      <div class="blk">
+        <p>엔지니어링 커리어의 출발점이자, 개별 문제를 시스템 전체의 구조로 보는 관점을 얻은 구간입니다.
+           이후 도구와 플랫폼을 설계할 때 "한 사람의 문제인가, 조직의 구조 문제인가"를 먼저 묻는 습관의 근원입니다.</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ============ 04 역량 ============ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <h2>역량 · 자격</h2>
+  </div>
+  <div class="grid2">
+    <div class="lane">
+      <div class="lane-t">Engineering</div>
+      <p><b>언어</b> · C++(주력), Python, TypeScript / Next.js, Java, Verilog</p>
+      <p><b>검증 · 분석</b> · 파형 분석(VCD/FSDB/TRN/SHM), callgrind·cachegrind, GTest,
+         Playwright, differential 검증, ELF / DWARF, ISA 인코딩 (RISC-V · ARM)</p>
+      <p><b>도구</b> · Docker, Git, Perfetto, VTune, GTKWave, Valgrind, GitHub Actions, Cypress</p>
+      <p><b>도메인</b> · Pre-silicon 검증, 트랜잭션 레벨 모델링, RISC-V 펌웨어,
+         이미지 센서 FW 타이밍, 성능 프로파일링, 데이터 파이프라인</p>
+    </div>
+    <div class="lane">
+      <div class="lane-t">Credentials</div>
+      <p><b>학력</b> · 성균관대학교 반도체시스템공학 학사 (2014.03 — 2020.02, GPA 4.0 / 4.5)</p>
+      <p><b>자격</b> · Samsung Professional Software Certificate (2020) ·
+         Associate Architect (2021) · Code Review Agent (2023)</p>
+      <p><b>특허 출원 중</b> · Device and Method with Control of Neural Network Bit Precision
+        <span class="patent">US 19/302868 · KR 10-2025-0016828</span></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>정유석 · Pre-Silicon Verification &amp; Tooling · 2026</span>
+  <span class="note">사내 식별자 · 코드명 · 고객 정보 비포함 · 최종 갱신 2026-08-08</span>
+</footer>
+
+</div>
+</body>
+</html>
