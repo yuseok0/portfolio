@@ -21,12 +21,21 @@
   .wrap{max-width:960px;margin:0 auto;background:var(--bg);
         box-shadow:0 1px 3px rgba(16,24,40,.06),0 12px 40px rgba(16,24,40,.06)}
 
+  body[data-lang="ko"] .en{display:none!important}
+  body[data-lang="en"] .ko{display:none!important}
+  .lang-toggle{position:fixed;top:16px;right:16px;z-index:99;
+    font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;
+    padding:8px 14px;border-radius:20px;border:1px solid var(--line-2);
+    background:rgba(255,255,255,.92);color:var(--ink-2);cursor:pointer;
+    box-shadow:0 2px 8px rgba(16,24,40,.12);backdrop-filter:blur(4px)}
+  .lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+
   header{background:var(--band);color:#fff;padding:44px 48px 40px;
          background-image:linear-gradient(180deg,#0f1621 0%,#141d2a 100%)}
   .crumb{font-family:var(--mono);font-size:12px;margin-bottom:22px}
   .crumb a{color:#6fb3b3;text-decoration:none}
   .crumb a:hover{color:#7fd4d0}
-  .crumb span{color:#4a5666;margin:0 8px}
+  .crumb span.sep{color:#4a5666;margin:0 8px}
   .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
            color:#6fb3b3;margin-bottom:14px}
   h1{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
@@ -91,8 +100,6 @@
                  color:var(--accent);margin-bottom:6px}
   .story-step p{font-size:14px;line-height:1.75}
   .story-step p+p{margin-top:8px}
-  .caveat{font-size:13px;color:var(--amber);background:var(--amber-soft);border:1px solid #eedcb8;
-          border-left:3px solid var(--amber);border-radius:4px;padding:11px 14px;line-height:1.65;margin-top:20px}
 
   .next{border:1px solid #9ccfcc;border-radius:8px;background:linear-gradient(180deg,#fbfefd,#f0f8f7);
         padding:24px 26px;margin-top:8px}
@@ -114,6 +121,7 @@
     .sec-note{margin-left:0;text-align:left;width:100%}
     table{font-size:12.5px}
     th,td{padding:9px 10px}
+    .lang-toggle{top:10px;right:10px}
   }
   @media print{
     body{background:#fff;font-size:12px}
@@ -121,24 +129,36 @@
     header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
     section{padding:24px 0}
     .comp-card,.story-step,.next{break-inside:avoid}
+    .lang-toggle{display:none}
   }
 </style>
 </head>
-<body>
+<body data-lang="ko">
+<button class="lang-toggle" onclick="setLang(document.body.dataset.lang==='ko'?'en':'ko')">
+  <span class="ko">EN</span><span class="en">한국어</span>
+</button>
 <div class="wrap">
 
 <header>
-  <div class="crumb"><a href="index.html">← 전체 포트폴리오</a><span>/</span>프로젝트 상세 2 of 3</div>
-  <div class="eyebrow">Hackathon Project · 2026 · 팀 과제 참여</div>
+  <div class="crumb"><a href="index.html"><span class="ko">← 전체 포트폴리오</span><span class="en">← Full portfolio</span></a><span class="sep">/</span><span class="ko">프로젝트 상세 2 of 3</span><span class="en">Project detail 2 of 3</span></div>
+  <div class="eyebrow"><span class="ko">Hackathon Project · 2026 · 팀 과제 참여</span><span class="en">Hackathon Project · 2026 · team project</span></div>
   <h1>HW-SW Co-Optimization Toolchain</h1>
-  <p class="claim">RTL 파형을 SW 프로파일로 바꾸는 팀 과제에서,<br><em>사용자 관점의 요구를 정의하고 다음 단계를 설계</em>했다.</p>
-  <p class="sub">파형 속 PC 신호만으로 함수별 SW 프로파일을 복원하는 툴체인(WaveScope + Performance Profiler).
-     메이저 개발은 팀 동료가 담당했고, 나는 실사용자로서 요구사항을 정의하고 확장 방향을 제안하는 역할로 참여했습니다.</p>
+  <p class="claim">
+    <span class="ko">RTL 파형을 SW 프로파일로 바꾸는 팀 과제에서,<br><em>사용자 관점의 요구를 정의하고 다음 단계를 설계</em>했다.</span>
+    <span class="en">In a team project turning RTL waveforms into SW profiles,<br>I <em>defined the user-side requirements and designed the next step</em>.</span>
+  </p>
+  <p class="sub">
+    <span class="ko">파형 속 PC 신호만으로 함수별 SW 프로파일을 복원하는 툴체인(WaveScope + Performance Profiler).
+     메이저 개발은 팀 동료가 담당했고, 나는 실사용자로서 요구사항을 정의하고 확장 방향을 제안하는 역할로 참여했습니다.</span>
+    <span class="en">A toolchain (WaveScope + Performance Profiler) that reconstructs per-function SW profiles
+     purely from the PC signal inside waveforms. A teammate did the major development; I participated as a real
+     user — defining requirements and proposing the direction for extension.</span>
+  </p>
   <div class="role-strip">
-    <span class="r">내 역할 — <b>사용자 관점 요구사항 정의</b></span>
-    <span class="r"><b>실사용 참여</b></span>
-    <span class="r"><b>확장 아키텍처 제안</b></span>
-    <span class="note">코어 개발: 팀 동료</span>
+    <span class="r"><span class="ko">내 역할 — </span><span class="en">My role — </span><b><span class="ko">사용자 관점 요구사항 정의</span><span class="en">User-side requirements definition</span></b></span>
+    <span class="r"><b><span class="ko">실사용 참여</span><span class="en">Hands-on real use</span></b></span>
+    <span class="r"><b><span class="ko">확장 아키텍처 제안</span><span class="en">Extension-architecture proposal</span></b></span>
+    <span class="note"><span class="ko">코어 개발: 팀 동료</span><span class="en">Core development: teammate</span></span>
   </div>
 </header>
 
@@ -146,32 +166,41 @@
 <section>
   <div class="sec-head">
     <span class="sec-num">01</span>
-    <h2>구성 — 툴체인은 무엇으로 이루어져 있는가</h2>
+    <h2><span class="ko">구성 — 툴체인은 무엇으로 이루어져 있는가</span><span class="en">Composition — what the toolchain is made of</span></h2>
   </div>
-  <p class="lead">시뮬레이션·에뮬레이션 파형에는 이미 클럭마다 CPU의 <strong>Program Counter가 하나씩</strong> 들어 있습니다.
+  <p class="lead ko">시뮬레이션·에뮬레이션 파형에는 이미 클럭마다 CPU의 <strong>Program Counter가 하나씩</strong> 들어 있습니다.
      이 툴체인은 그 신호 하나로 함수별·줄별 비용을 복원합니다 — 설계에 트레이스 IP를 추가하지 않고,
      시뮬레이터도 고치지 않은 채로.</p>
+  <p class="lead en">Simulation and emulation waveforms already carry <strong>one CPU Program Counter value per
+     clock</strong>. This toolchain reconstructs per-function, per-line costs from that single signal — without
+     adding trace IP to the design, and without modifying the simulator.</p>
   <div class="flow">
-    <span>파형 (VCD/FSDB/TRN)</span><i>→</i>
-    <span>PC 스트리밍 샘플링</span><i>→</i>
-    <span>ELF/DWARF 대조</span><i>→</i>
-    <span>callgrind 프로파일</span><i>→</i>
-    <span>다중 런 분석 뷰어</span>
+    <span class="ko">파형 (VCD/FSDB/TRN)</span><span class="en">Waveform (VCD/FSDB/TRN)</span><i>→</i>
+    <span class="ko">PC 스트리밍 샘플링</span><span class="en">Streaming PC sampling</span><i>→</i>
+    <span class="ko">ELF/DWARF 대조</span><span class="en">ELF/DWARF matching</span><i>→</i>
+    <span class="ko">callgrind 프로파일</span><span class="en">callgrind profile</span><i>→</i>
+    <span class="ko">다중 런 분석 뷰어</span><span class="en">Multi-run analysis viewer</span>
   </div>
   <div class="comp" style="margin-top:18px">
     <div class="comp-card">
-      <span class="who">변환기</span>
-      <h4>WaveScope — 파형 → callgrind</h4>
-      <p>Python CLI. 파형의 PC 트레이스를 ELF 디버그 심볼과 대조해 표준 callgrind 프로파일로 복원.
+      <span class="who"><span class="ko">변환기</span><span class="en">Converter</span></span>
+      <h4><span class="ko">WaveScope — 파형 → callgrind</span><span class="en">WaveScope — waveform → callgrind</span></h4>
+      <p class="ko">Python CLI. 파형의 PC 트레이스를 ELF 디버그 심볼과 대조해 표준 callgrind 프로파일로 복원.
          사이클 귀속은 <code>cycles(pcᵢ) = max(1, tᵢ−tᵢ₋₁)</code> — 열네 틱 걸린 커밋은 곧 13사이클 stall.
          RISC-V·ARM 2개 ISA 지원.</p>
+      <p class="en">A Python CLI that matches the waveform's PC trace against ELF debug symbols and reconstructs
+         a standard callgrind profile. Cycle attribution is <code>cycles(pcᵢ) = max(1, tᵢ−tᵢ₋₁)</code> — a commit
+         that took fourteen ticks means a 13-cycle stall. Supports two ISAs: RISC-V and ARM.</p>
     </div>
     <div class="comp-card">
-      <span class="who">뷰어</span>
-      <h4>Performance Profiler — 다중 런 분석</h4>
-      <p>Electron + Next.js 기반 callgrind 뷰어. 소스·어셈블리 뷰, 콜 트리, 다중 런 커버리지 병합·비교.
+      <span class="who"><span class="ko">뷰어</span><span class="en">Viewer</span></span>
+      <h4><span class="ko">Performance Profiler — 다중 런 분석</span><span class="en">Performance Profiler — multi-run analysis</span></h4>
+      <p class="ko">Electron + Next.js 기반 callgrind 뷰어. 소스·어셈블리 뷰, 콜 트리, 다중 런 커버리지 병합·비교.
          두 컴포넌트의 접점은 API가 아니라 <strong>파일 포맷(callgrind)</strong> — 결과가 세션이 아닌
          파일이라 런 간 비교가 성립합니다.</p>
+      <p class="en">An Electron + Next.js callgrind viewer: source/assembly views, call trees, and multi-run
+         coverage merge &amp; compare. The two components meet not at an API but at a <strong>file format
+         (callgrind)</strong> — results are files, not sessions, so cross-run comparison actually works.</p>
     </div>
   </div>
 </section>
@@ -180,60 +209,81 @@
 <section>
   <div class="sec-head">
     <span class="sec-num">02</span>
-    <h2>문제의식 &amp; 해결방법론 — 내가 이 과제에 선 이유</h2>
+    <h2><span class="ko">문제의식 &amp; 해결방법론 — 내가 이 과제에 선 이유</span><span class="en">Problem &amp; Approach — why I stood in this project</span></h2>
   </div>
-  <p class="lead">SoC가 복잡해질수록 SW 개발은 실리콘 이전 단계로 당겨지는데, 그 구간의 도구는 비어 있습니다.
+  <p class="lead ko">SoC가 복잡해질수록 SW 개발은 실리콘 이전 단계로 당겨지는데, 그 구간의 도구는 비어 있습니다.
      SW 프로파일러는 "돌아가는 기계"를 전제하고, HW 검증 도구는 "신호"를 전제합니다.
      <strong>"이 워크로드가 느린데 원인이 SW인가 HW인가, 어디인가"</strong>라는 co-optimization 질문에는
      아무도 답하지 않습니다. 기존에는 숙련 엔지니어가 몇 시간에서 며칠에 걸쳐 코어 하나씩 파형을 수동 판독했습니다.</p>
-  <p class="lead">내가 이 과제에 참여한 이유는 정확히 <strong>사용자 쪽 절박함</strong>에 있었습니다.
+  <p class="lead en">As SoCs grow complex, SW development shifts pre-silicon — and that stage's tooling is empty.
+     SW profilers assume a running machine; HW verification tools assume signals. Nobody answers the
+     co-optimization question: <strong>"this workload is slow — is it SW or HW, and where?"</strong>
+     Until now, skilled engineers read waveforms by hand, one core at a time, for hours to days.</p>
+  <p class="lead ko">내가 이 과제에 참여한 이유는 정확히 <strong>사용자 쪽 절박함</strong>에 있었습니다.
      DV 현장은 지금 SW coverage에 대한 니즈가 극심한 상황입니다 — 무엇이 검증되었고 무엇이 안 되었는지를
      펌웨어 실행 기준으로 말할 수 있어야 하는데, 그걸 보여주는 도구가 없었습니다. 파형에서 PC를 복원해
      SW coverage를 읽는 이 접근은 그 공백을 정면으로 겨냥합니다. 나는 ArchXplorer에서 시뮬레이터 IP를
      만들던 경험과 DV 도메인의 요구를 들고, <strong>"이 도구가 답해야 할 질문"을 정의하는 역할</strong>로 들어갔습니다.</p>
+  <p class="lead en">I joined precisely because of <strong>the urgency on the user side</strong>. DV teams today
+     have an acute need for SW coverage — you must be able to say what has and hasn't been verified in terms of
+     firmware execution, and no tool showed it. Reconstructing PC from waveforms to read SW coverage aims
+     squarely at that gap. Carrying my ArchXplorer IP-modeling experience and the DV domain's needs, I entered
+     as <strong>the person defining the questions this tool must answer</strong>.</p>
 </section>
 
 <!-- 03 현황 & 비교 -->
 <section>
   <div class="sec-head">
     <span class="sec-num">03</span>
-    <h2>현황 &amp; 다른 접근과의 비교</h2>
-    <span class="sec-note">2026-08 사내 해커톤 제출 · 결과 대기 중</span>
+    <h2><span class="ko">현황 &amp; 다른 접근과의 비교</span><span class="en">Status &amp; Comparison</span></h2>
+    <span class="sec-note"><span class="ko">2026-08 사내 해커톤 제출 · 결과 대기 중</span><span class="en">Submitted to internal hackathon Aug 2026 · awaiting results</span></span>
   </div>
 
   <div class="kv">
-    <div><b>~20초 / 500MB</b><span>파형 덤프 → SW 프로파일 복원 (팀 측정치). 기존 수동 판독은 수 시간</span></div>
-    <div><b>Ir·Cy 정확 일치</b><span>Cortex-M 계열 CoreMark 파형을 사내 시뮬레이터 profile engine과 교차검증</span></div>
-    <div><b>테스트 372+231</b><span>뷰어·변환기 단위 테스트 및 Playwright 렌더 시나리오로 검증 인프라 구축</span></div>
+    <div><b>~20s / 500MB</b>
+      <span class="ko">파형 덤프 → SW 프로파일 복원 (팀 측정치). 기존 수동 판독은 수 시간</span>
+      <span class="en">Waveform dump → SW profile (team measurement). Manual reading took hours</span></div>
+    <div><b class="ko">Ir·Cy 정확 일치</b><b class="en">Exact Ir·Cy match</b>
+      <span class="ko">Cortex-M 계열 CoreMark 파형을 사내 시뮬레이터 profile engine과 교차검증</span>
+      <span class="en">Cortex-M CoreMark waveform cross-validated against an internal simulator's profile engine</span></div>
+    <div><b class="ko">테스트 372+231</b><b class="en">Tests 372+231</b>
+      <span class="ko">뷰어·변환기 단위 테스트 및 Playwright 렌더 시나리오로 검증 인프라 구축</span>
+      <span class="en">Viewer/converter unit tests plus Playwright render scenarios as verification infra</span></div>
   </div>
 
-  <div class="blk-t">주 비교축 — 트레이스 IP 방식과 무엇이 다른가</div>
-  <p class="lead">같은 목표(실리콘 이전 SW 실행 추적)의 정석은 트레이스 IP입니다. ARM CoreSight ETM,
+  <div class="blk-t"><span class="ko">주 비교축 — 트레이스 IP 방식과 무엇이 다른가</span><span class="en">Main comparison — versus trace-IP approaches</span></div>
+  <p class="lead ko">같은 목표(실리콘 이전 SW 실행 추적)의 정석은 트레이스 IP입니다. ARM CoreSight ETM,
      RISC-V E-Trace 같은 방식이죠. 차이는 <strong>전제 조건</strong>에 있습니다.</p>
+  <p class="lead en">The textbook route to the same goal (tracing SW execution pre-silicon) is trace IP —
+     ARM CoreSight ETM, RISC-V E-Trace. The difference lies in <strong>the preconditions</strong>.</p>
   <table>
     <thead>
-      <tr><th>기준</th><th>트레이스 IP (ETM · E-Trace 등)</th><th>파형 PC 복원 (이 툴체인)</th></tr>
+      <tr>
+        <th><span class="ko">기준</span><span class="en">Criterion</span></th>
+        <th><span class="ko">트레이스 IP (ETM · E-Trace 등)</span><span class="en">Trace IP (ETM · E-Trace)</span></th>
+        <th><span class="ko">파형 PC 복원 (이 툴체인)</span><span class="en">Waveform PC reconstruction (this toolchain)</span></th>
+      </tr>
     </thead>
     <tbody>
       <tr>
-        <td>설계 변경</td>
-        <td><span class="neg">인코더 + funnel + sink IP를 설계에 추가해야 함</span> — RTL 초기 사내 코어에는 대개 없음</td>
-        <td><span class="pos">불필요</span> — 이미 덤프하는 파형을 그대로 사용</td>
+        <td><span class="ko">설계 변경</span><span class="en">Design changes</span></td>
+        <td><span class="neg"><span class="ko">인코더 + funnel + sink IP를 설계에 추가해야 함</span><span class="en">Requires adding encoder + funnel + sink IP</span></span> <span class="ko">— RTL 초기 사내 코어에는 대개 없음</span><span class="en">— usually absent in early-RTL in-house cores</span></td>
+        <td><span class="pos"><span class="ko">불필요</span><span class="en">None needed</span></span> <span class="ko">— 이미 덤프하는 파형을 그대로 사용</span><span class="en">— uses the waveforms you already dump</span></td>
       </tr>
       <tr>
-        <td>기록 손실</td>
-        <td><span class="neg">FIFO 오버플로가 공백을 남김</span>; 대응책이 코어 stall — 측정 대상의 타이밍 자체를 바꿈</td>
-        <td><span class="pos">덤프 구간 내 무손실</span></td>
+        <td><span class="ko">기록 손실</span><span class="en">Record loss</span></td>
+        <td><span class="neg"><span class="ko">FIFO 오버플로가 공백을 남김</span><span class="en">FIFO overflow leaves gaps</span></span><span class="ko">; 대응책이 코어 stall — 측정 대상의 타이밍 자체를 바꿈</span><span class="en">; the mitigation stalls the core — altering the very timing being measured</span></td>
+        <td><span class="pos"><span class="ko">덤프 구간 내 무손실</span><span class="en">Lossless within the dumped window</span></span></td>
       </tr>
       <tr>
-        <td>적용 시점</td>
-        <td>트레이스 IP가 들어간 설계 이후</td>
-        <td><span class="pos">RTL 개발 초기부터</span> — 파형만 있으면 됨</td>
+        <td><span class="ko">적용 시점</span><span class="en">When applicable</span></td>
+        <td><span class="ko">트레이스 IP가 들어간 설계 이후</span><span class="en">Only after trace IP is in the design</span></td>
+        <td><span class="pos"><span class="ko">RTL 개발 초기부터</span><span class="en">From earliest RTL</span></span> <span class="ko">— 파형만 있으면 됨</span><span class="en">— a waveform is all it takes</span></td>
       </tr>
       <tr class="hl">
-        <td>결과물</td>
-        <td>전용 디코더·세션 종속</td>
-        <td>표준 callgrind 파일 — KCachegrind 등 기존 생태계에서 바로 열림</td>
+        <td><span class="ko">결과물</span><span class="en">Output</span></td>
+        <td><span class="ko">전용 디코더·세션 종속</span><span class="en">Proprietary decoder, session-bound</span></td>
+        <td><span class="ko">표준 callgrind 파일 — KCachegrind 등 기존 생태계에서 바로 열림</span><span class="en">Standard callgrind files — open directly in KCachegrind &amp; the existing ecosystem</span></td>
       </tr>
     </tbody>
   </table>
@@ -243,56 +293,86 @@
 <section>
   <div class="sec-head">
     <span class="sec-num">04</span>
-    <h2>내가 한 일 — 사용자 관점 요구사항 정의</h2>
+    <h2><span class="ko">내가 한 일 — 사용자 관점 요구사항 정의</span><span class="en">What I Did — defining user-side requirements</span></h2>
   </div>
   <div class="story">
     <div class="story-step">
-      <div class="k">경계를 먼저</div>
-      <p>이 과제에서 변환 알고리즘과 뷰어의 메이저 개발은 팀 동료의 작업입니다.
+      <div class="k"><span class="ko">경계를 먼저</span><span class="en">Boundaries first</span></div>
+      <p class="ko">이 과제에서 변환 알고리즘과 뷰어의 메이저 개발은 팀 동료의 작업입니다.
          내 기여는 다른 층위에 있습니다 — <strong>이 도구를 실제로 쓸 사람의 자리에서, 도구가 답해야 할
          질문을 정의하는 일</strong>입니다.</p>
+      <p class="en">The major development of the conversion algorithm and the viewer is my teammate's work.
+         My contribution sits on a different layer — <strong>defining, from the seat of an actual user,
+         the questions the tool must answer</strong>.</p>
     </div>
     <div class="story-step">
-      <div class="k">무엇을 정의했나</div>
-      <p>DV·FW 엔지니어가 실제로 필요로 하는 것은 "프로파일이 나온다"가 아니라
+      <div class="k"><span class="ko">무엇을 정의했나</span><span class="en">What I defined</span></div>
+      <p class="ko">DV·FW 엔지니어가 실제로 필요로 하는 것은 "프로파일이 나온다"가 아니라
          <strong>"내 펌웨어의 어느 함수가 검증에서 빠져 있고, 다음에 어떤 시나리오를 돌려야 하는가"</strong>라는
          답입니다. 나는 이 사용자 질문을 요구사항으로 번역해 전달했습니다 — coverage를 단일 지표로 요약할 것,
          런 하나가 아니라 여러 런의 병합·비교가 중심일 것, 그리고 결과가 특정 세션이 아니라 파일로 남아
          공유·재분석이 가능할 것.</p>
+      <p class="en">What DV and FW engineers actually need is not "a profile comes out" but
+         <strong>"which functions of my firmware are missing from verification, and which scenario should I run
+         next?"</strong> I translated that user question into requirements: summarize coverage into a single
+         metric; center the tool on merging and comparing multiple runs, not one; and leave results as files —
+         shareable and re-analyzable — rather than sessions.</p>
     </div>
     <div class="story-step">
-      <div class="k">왜 이 역할이 가능했나</div>
-      <p>ArchXplorer에서 트랜잭션 레벨 IP 모델을 직접 만들며 "시뮬레이션 결과를 무엇과 대조해 믿을 것인가"를
+      <div class="k"><span class="ko">왜 이 역할이 가능했나</span><span class="en">Why I could play this role</span></div>
+      <p class="ko">ArchXplorer에서 트랜잭션 레벨 IP 모델을 직접 만들며 "시뮬레이션 결과를 무엇과 대조해 믿을 것인가"를
          고민했고, 센서 FW 검증 도메인에서 coverage 공백의 실감을 갖고 있었기 때문입니다.
          도구를 만드는 사람과 쓰는 사람 사이의 번역자는, 양쪽을 다 해본 사람이어야 합니다.</p>
+      <p class="en">Because building TLM IP models in ArchXplorer forced me to ask "against what do we validate
+         simulation results?", and the sensor-FW verification domain gave me a lived sense of the coverage gap.
+         The translator between tool-builders and tool-users has to be someone who has done both.</p>
     </div>
-  </div></section>
+  </div>
+</section>
 
 <!-- 05 넥스트 아이템 -->
 <section>
   <div class="sec-head">
     <span class="sec-num">05</span>
-    <h2>넥스트 아이템 — 내가 제안하는 다음 단계</h2>
+    <h2><span class="ko">넥스트 아이템 — 내가 제안하는 다음 단계</span><span class="en">Next Item — the step I'm proposing</span></h2>
   </div>
   <div class="next">
-    <div class="t">Proposal · 아이디어 단계</div>
-    <h4>PC 트레이스를 트랜잭션 레벨로 승격해, DV 엔지니어에게 System Flow를 돌려주기</h4>
-    <p>현재 툴체인은 파형에서 <strong>SW의 시선</strong>(함수·줄·사이클)을 복원합니다. 내 제안은 한 단계 더 —
+    <div class="t"><span class="ko">Proposal · 아이디어 단계</span><span class="en">Proposal · idea stage</span></div>
+    <h4><span class="ko">PC 트레이스를 트랜잭션 레벨로 승격해, DV 엔지니어에게 System Flow를 돌려주기</span>
+        <span class="en">Promote PC traces to transaction level — give DV engineers back the system flow</span></h4>
+    <p class="ko">현재 툴체인은 파형에서 <strong>SW의 시선</strong>(함수·줄·사이클)을 복원합니다. 내 제안은 한 단계 더 —
        복원된 PC 트레이스를 NCA류 <strong>트랜잭션 레벨 표현으로 변환</strong>하는 것입니다. 어떤 함수가 얼마나
        걸렸는가를 넘어, 그 실행이 버스·DMA·IP와 어떤 트랜잭션 흐름으로 얽혀 있었는지를 보여주는 층위입니다.</p>
-    <p>이게 되면 DV 엔지니어는 파형(신호의 세계)과 커버리지(SW의 세계) 사이에서 길을 잃지 않고,
+    <p class="en">Today the toolchain reconstructs <strong>software's view</strong> — functions, lines, cycles —
+       from waveforms. My proposal goes one level further: <strong>convert the reconstructed PC trace into an
+       NCA-style transaction-level representation</strong>. Beyond which function took how long, it shows how
+       that execution was entangled with buses, DMA, and IPs as transaction flows.</p>
+    <p class="ko">이게 되면 DV 엔지니어는 파형(신호의 세계)과 커버리지(SW의 세계) 사이에서 길을 잃지 않고,
        <strong>system flow 전체를 하나의 그림으로</strong> 이해할 수 있습니다. 검증이 "신호가 맞았는가"에서
        "시스템이 의도한 흐름대로 동작했는가"로 올라가는 것이죠.</p>
-    <p>이 제안이 내 이력의 교차점입니다 — ArchXplorer에서 만든 <strong>트랜잭션 레벨 모델링 경험</strong>과,
+    <p class="en">With this, DV engineers stop getting lost between waveforms (the world of signals) and coverage
+       (the world of software) — they see <strong>the whole system flow as one picture</strong>. Verification
+       rises from "were the signals right?" to "did the system behave as the intended flow?"</p>
+    <p class="ko">이 제안이 내 이력의 교차점입니다 — ArchXplorer에서 만든 <strong>트랜잭션 레벨 모델링 경험</strong>과,
        이 툴체인에서 정의한 <strong>SW coverage 사용자 요구</strong>가 만나는 자리에서만 나올 수 있는 아이템이라고 생각합니다.</p>
+    <p class="en">This proposal is the intersection of my track record — an item that could only emerge where the
+       <strong>transaction-level modeling experience</strong> from ArchXplorer meets the <strong>SW-coverage user
+       requirements</strong> I defined here.</p>
   </div>
 </section>
 
 <footer>
-  <span><a href="archxplorer.html">← ArchXplorer</a> · <a href="index.html">전체 포트폴리오</a></span>
-  <span>다음 — <a href="api-register.html">API Register 검증영역 표준화 →</a></span>
+  <span><a href="archxplorer.html">← ArchXplorer</a> · <a href="index.html"><span class="ko">전체 포트폴리오</span><span class="en">Full portfolio</span></a></span>
+  <span><span class="ko">다음 — </span><span class="en">Next — </span><a href="api-register.html"><span class="ko">API Register 검증영역 표준화 →</span><span class="en">API-Register Scope Standardization →</span></a></span>
 </footer>
 
 </div>
+<script>
+function setLang(l){document.body.dataset.lang=l;document.documentElement.lang=l;
+  document.querySelectorAll('a').forEach(function(a){var h=a.getAttribute('href')||'';
+    if(h.indexOf('.html')>-1){a.setAttribute('href',h.split('#')[0]+(l==='en'?'#en':''))}});}
+setLang(location.hash==='#en'?'en':'ko');
+window.addEventListener('hashchange',function(){setLang(location.hash==='#en'?'en':'ko')});
+</script>
 </body>
 </html>

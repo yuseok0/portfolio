@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정유석 — 검증을 도구로 만드는 엔지니어</title>
+<title>정유석 · Yuseok Jeong — Pre-Silicon Verification & Tooling</title>
 <style>
   :root{
     --ink:#12161c; --ink-2:#39424e; --ink-3:#6b7684;
@@ -21,13 +21,23 @@
   .wrap{max-width:960px;margin:0 auto;background:var(--bg);
         box-shadow:0 1px 3px rgba(16,24,40,.06),0 12px 40px rgba(16,24,40,.06)}
 
+  /* ---------- i18n ---------- */
+  body[data-lang="ko"] .en{display:none!important}
+  body[data-lang="en"] .ko{display:none!important}
+  .lang-toggle{position:fixed;top:16px;right:16px;z-index:99;
+    font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;
+    padding:8px 14px;border-radius:20px;border:1px solid var(--line-2);
+    background:rgba(255,255,255,.92);color:var(--ink-2);cursor:pointer;
+    box-shadow:0 2px 8px rgba(16,24,40,.12);backdrop-filter:blur(4px)}
+  .lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+
   /* ---------- header band ---------- */
   header{background:var(--band);color:#fff;padding:52px 48px 44px;
          background-image:linear-gradient(180deg,#0f1621 0%,#141d2a 100%)}
   .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
            color:#6fb3b3;margin-bottom:16px}
   h1{font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:6px}
-  h1 .en{font-size:18px;font-weight:400;color:#8f9bab;letter-spacing:0;margin-left:10px}
+  h1 .sub-name{font-size:18px;font-weight:400;color:#8f9bab;letter-spacing:0;margin-left:10px}
   .claim{font-size:20px;font-weight:600;color:#e8edf3;margin:20px 0 14px;line-height:1.55;
          max-width:660px;letter-spacing:-.01em}
   .claim em{font-style:normal;color:#7fd4d0;box-shadow:inset 0 -.55em 0 rgba(127,212,208,.13)}
@@ -47,16 +57,6 @@
   h2{font-size:19px;font-weight:700;letter-spacing:-.01em}
   .sec-note{font-size:13px;color:var(--ink-3);margin-left:auto;text-align:right}
 
-  /* ---------- stat strip ---------- */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
-         border:1px solid var(--line);border-radius:6px;overflow:hidden}
-  .stat{background:var(--bg);padding:20px 18px}
-  .stat .n{font-family:var(--mono);font-size:25px;font-weight:600;color:var(--accent);
-           letter-spacing:-.02em;line-height:1.15}
-  .stat .n small{font-size:14px;font-weight:500}
-  .stat .l{font-size:12.5px;color:var(--ink-2);margin-top:7px;line-height:1.5}
-  .stat .src{font-size:11px;color:var(--ink-3);margin-top:5px;font-family:var(--mono)}
-
   /* ---------- thesis ---------- */
   .thesis{font-size:15.5px;color:var(--ink-2);max-width:760px}
   .thesis p+p{margin-top:14px}
@@ -66,6 +66,17 @@
   .chain span{background:var(--accent-soft);color:#0a5a5a;padding:6px 11px;border-radius:4px;
               border:1px solid #c9e4e2}
   .chain i{color:var(--line-2);font-style:normal;font-size:14px}
+
+  /* ---------- vision ---------- */
+  .vision{border:1px solid #9ccfcc;border-radius:10px;
+          background:linear-gradient(180deg,#fbfefd,#eef7f6);padding:28px 30px;max-width:820px}
+  .vision .v-tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+                 color:var(--accent);margin-bottom:12px}
+  .vision h3{font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.45;margin-bottom:14px}
+  .vision h3 em{font-style:normal;color:var(--accent)}
+  .vision p{font-size:14.5px;color:var(--ink-2);line-height:1.78}
+  .vision p+p{margin-top:11px}
+  .vision p strong{color:var(--ink);font-weight:600}
 
   /* ---------- timeline ---------- */
   .tl{position:relative;padding-left:22px}
@@ -77,7 +88,7 @@
   .tl-row.now::before{background:var(--accent);border-color:var(--accent)}
   .tl-when{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);white-space:nowrap}
   .tl-what b{font-weight:600}
-  .tl-what span{color:var(--ink-3);font-size:13px}
+  .tl-what span.d{color:var(--ink-3);font-size:13px}
 
   /* ---------- project cards ---------- */
   .proj{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg);
@@ -90,9 +101,10 @@
        border:1px solid var(--line-2)}
   .tag.hero{background:var(--accent);color:#fff;border-color:var(--accent)}
   .tag.warn{background:var(--amber-soft);color:var(--amber);border-color:#e8d5ab}
-  h3{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.4}
-  h3 .org{display:block;font-size:12.5px;font-weight:500;color:var(--ink-3);
-          font-family:var(--mono);margin-top:6px;letter-spacing:0}
+  h3.pt{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.4}
+  .org{display:block;font-size:12.5px;font-weight:500;color:var(--ink-3);
+       font-family:var(--mono);margin-top:6px;letter-spacing:0}
+  .org a{color:var(--accent)}
   .oneline{margin-top:12px;font-size:15px;color:var(--ink-2);font-weight:500;line-height:1.6}
   .proj-body{padding:22px 26px 24px}
   .blk{margin-bottom:20px}
@@ -105,16 +117,10 @@
             border-radius:3px;color:var(--ink)}
   .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;
       background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-  .kv.k4{grid-template-columns:repeat(2,1fr)}
   .kv div{background:var(--bg-2);padding:13px 15px}
   .kv b{display:block;font-family:var(--mono);font-size:16px;color:var(--accent);
         font-weight:600;letter-spacing:-.01em}
   .kv span{display:block;font-size:12.5px;color:var(--ink-2);margin-top:4px;line-height:1.5}
-  .stack{display:flex;flex-wrap:wrap;gap:6px}
-  .stack span{font-family:var(--mono);font-size:12px;color:var(--ink-2);background:var(--bg-3);
-              padding:4px 9px;border-radius:3px}
-  .caveat{font-size:13px;color:var(--amber);background:var(--amber-soft);border:1px solid #eedcb8;
-          border-left:3px solid var(--amber);border-radius:4px;padding:11px 14px;line-height:1.65}
 
   /* ---------- skills / credentials ---------- */
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
@@ -133,12 +139,11 @@
     header,section,footer{padding-left:24px;padding-right:24px}
     h1{font-size:26px}
     .claim{font-size:17px}
-    .stats{grid-template-columns:1fr 1fr}
-    .kv.k4{grid-template-columns:1fr}
     .grid2{grid-template-columns:1fr}
     .tl-row{grid-template-columns:1fr;gap:2px}
     .sec-note{margin-left:0;text-align:left;width:100%}
     .sec-head{flex-wrap:wrap}
+    .lang-toggle{top:10px;right:10px}
   }
   @media print{
     body{background:#fff;font-size:12px}
@@ -146,21 +151,34 @@
     header{background:var(--band)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .proj{break-inside:avoid;page-break-inside:avoid}
     section{padding:24px 0}
+    .lang-toggle{display:none}
   }
 </style>
 </head>
-<body>
+<body data-lang="ko">
+<button class="lang-toggle" onclick="setLang(document.body.dataset.lang==='ko'?'en':'ko')">
+  <span class="ko">EN</span><span class="en">한국어</span>
+</button>
 <div class="wrap">
 
 <header>
   <div class="eyebrow">Pre-Silicon Verification &amp; Tooling</div>
-  <h1>정유석<span class="en">Yuseok Jeong</span></h1>
-  <p class="claim">사람이 며칠 걸려 손으로 읽던 검증을,<br><em>반복 가능한 자동 파이프라인</em>으로 바꿉니다.</p>
-  <p class="sub">삼성전자 Device Solutions에서 2020년부터 SoC 설계 탐색 플랫폼, 파형 기반 프로파일링 툴체인,
-     펌웨어 검증 모델을 만들어 왔습니다. 공통점은 하나입니다 — 실리콘이 나오기 전에 답을 얻는 도구.</p>
+  <h1><span class="ko">정유석<span class="sub-name">Yuseok Jeong</span></span><span class="en">Yuseok Jeong<span class="sub-name">정유석</span></span></h1>
+  <p class="claim">
+    <span class="ko">사람이 며칠 걸려 손으로 읽던 검증을,<br><em>반복 가능한 자동 파이프라인</em>으로 바꿉니다.</span>
+    <span class="en">I turn verification that took days of manual reading<br>into <em>repeatable, automated pipelines</em>.</span>
+  </p>
+  <p class="sub">
+    <span class="ko">삼성전자 Device Solutions에서 2020년부터 SoC 설계 탐색 플랫폼, 파형 기반 프로파일링
+     툴체인, 펌웨어 검증 모델을 만들어 왔습니다. 공통점은 하나입니다 — 실리콘이 나오기 전에 답을
+     얻는 도구.</span>
+    <span class="en">At Samsung Electronics Device Solutions since 2020, I have built an SoC design-exploration
+     platform, waveform-based profiling toolchains, and firmware verification models. They share one goal —
+     tools that get answers before silicon arrives.</span>
+  </p>
   <div class="meta">
-    <span><b>삼성전자</b> Device Solutions · 2020.03~</span>
-    <span>성균관대 반도체시스템공학 학사</span>
+    <span><b class="ko">삼성전자</b><b class="en">Samsung Electronics</b> <span class="ko">Device Solutions · 2020.03~</span><span class="en">Device Solutions · Mar 2020–</span></span>
+    <span class="ko">성균관대 반도체시스템공학 학사</span><span class="en">B.S. Semiconductor Systems Eng., SKKU</span>
     <a href="https://www.linkedin.com/in/yuseok-jeong/">linkedin.com/in/yuseok-jeong</a>
     <a href="mailto:jus8710@gmail.com">jus8710@gmail.com</a>
   </div>
@@ -170,241 +188,376 @@
 <section>
   <div class="sec-head">
     <span class="sec-num">01</span>
-    <h2>무엇을 하는 사람인가</h2>
+    <h2><span class="ko">무엇을 하는 사람인가</span><span class="en">What I Do</span></h2>
   </div>
   <div class="thesis">
-    <p>SoC가 복잡해질수록 소프트웨어 개발은 실리콘이 나오기 전으로 당겨집니다. 그런데 그 구간에는
+    <p class="ko">SoC가 복잡해질수록 소프트웨어 개발은 실리콘이 나오기 전으로 당겨집니다. 그런데 그 구간에는
        도구가 비어 있습니다. <strong>소프트웨어 프로파일러는 "돌아가는 기계"를 전제하고, 하드웨어 검증 도구는
        "신호를 보고 싶어 한다"고 전제합니다.</strong> 정작 "이 워크로드가 느린데 원인이 SW인가 HW인가,
        그리고 어디인가"라는 질문에는 아무도 답하지 않습니다.</p>
-    <p>제가 만들고, 함께 다듬어 온 것들은 전부 그 빈칸을 메우는 도구였습니다. 파형에서 소프트웨어 프로파일을 복원하고,
-       설정 파일의 값이 실제로 검증된 영역 안에 있는지 DV 코드로 대조하고, 펌웨어가 런타임에 계산할 값을
-       독립 모델로 미리 재현합니다. <strong>공통 원리는 하나입니다 — 숙련자의 판단을 문서가 아니라
-       실행 가능한 파이프라인으로 옮기는 것.</strong></p>
+    <p class="en">As SoCs grow more complex, software development keeps shifting to before silicon exists —
+       and the tooling for that stage is empty. <strong>Software profilers assume a running machine; hardware
+       verification tools assume you want to look at signals.</strong> Nobody answers the actual question:
+       "this workload is slow — is it the software or the hardware, and where?"</p>
+    <p class="ko">제가 만들고, 함께 다듬어 온 것들은 전부 그 빈칸을 메우는 도구였습니다. 파형에서 소프트웨어
+       프로파일을 복원하고, 설정 파일의 값이 실제로 검증된 영역 안에 있는지 DV 코드로 대조하고, 펌웨어가
+       런타임에 계산할 값을 독립 모델로 미리 재현합니다. <strong>공통 원리는 하나입니다 — 숙련자의 판단을
+       문서가 아니라 실행 가능한 파이프라인으로 옮기는 것.</strong></p>
+    <p class="en">Everything I have built or helped shape fills that gap: reconstructing software profiles
+       from waveforms, checking whether a config value actually falls inside what DV code verified, and
+       reproducing firmware's runtime calculations in an independent model. <strong>One principle runs through
+       all of it — moving expert judgment out of documents and into executable pipelines.</strong></p>
     <div class="chain">
-      <span>RTL 파형 → SW 프로파일</span><i>→</i>
-      <span>설정값 검증 자동화</span><i>→</i>
-      <span>FW 레퍼런스 모델</span><i>→</i>
-      <span>성능 병목 정량화</span>
+      <span class="ko">RTL 파형 → SW 프로파일</span><span class="en">RTL waveform → SW profile</span><i>→</i>
+      <span class="ko">설정값 검증 자동화</span><span class="en">Automated config validation</span><i>→</i>
+      <span class="ko">FW 레퍼런스 모델</span><span class="en">FW reference models</span><i>→</i>
+      <span class="ko">성능 병목 정량화</span><span class="en">Quantified bottlenecks</span>
     </div>
   </div>
 </section>
 
-<!-- ============ 02 타임라인 ============ -->
+<!-- ============ 02 지향 ============ -->
 <section>
   <div class="sec-head">
     <span class="sec-num">02</span>
-    <h2>경로</h2>
-    <span class="sec-note">현재 사내벤처와 센서설계 조직 과제를 병행</span>
+    <h2><span class="ko">지향 — 어디로 가는가</span><span class="en">Where I'm Headed</span></h2>
+  </div>
+  <div class="vision">
+    <div class="v-tag">Vision</div>
+    <h3>
+      <span class="ko">DV 세계에 <em>Forward Deployed Engineer</em>라는 영역을 개척하고 싶습니다.</span>
+      <span class="en">I want to pioneer the role of <em>Forward Deployed Engineer</em> for the DV world.</span>
+    </h3>
+    <p class="ko">FDE는 고객의 현장에 들어가, 애매한 문제를 정의하고 <strong>해결의 형태로 만들어
+       전달하는</strong> 엔지니어입니다. 그 해결은 도구일 수도, 검증 서비스일 수도, 표준 산출물일 수도
+       있습니다. 검증의 세계야말로 이 역할이 비어 있습니다 — 설계팀, 솔루션, 고객사 사이에서
+       <strong>"무엇이 검증되었는가"라는 질문은 늘 번역 실패로 새고 있는데</strong>,
+       그 경계에 서는 사람이 없습니다.</p>
+    <p class="en">A Forward Deployed Engineer walks into the customer's field, defines the ambiguous problem,
+       and <strong>delivers it back in the shape of a solution</strong> — whether that is a tool, a verification
+       service, or a standard deliverable. Verification is exactly where this role is missing — between design
+       teams, solution teams, and customers, <strong>the question "what has actually been verified?" keeps
+       leaking through failed translation</strong>, and nobody stands at that boundary.</p>
+    <p class="ko">저는 이미 그 일을 하고 있습니다. 고객의 애매한 요구를 constraint 계층 모델로 번역해
+       표준 deliverable로 만들었고, 검증 플랫폼을 제품으로 만들어 조직에 배포·운영했으며,
+       도구가 답해야 할 질문을 사용자의 자리에서 정의했습니다.</p>
+    <p class="en">I am already doing this work: translating an ambiguous customer request into a layered
+       constraint model and standard deliverables, shipping a verification platform as a product deployed
+       across organizations, and defining — from the user's seat — the questions a tool must answer.</p>
+    <p class="ko">AI가 검증 코드를 대신 쓰는 시대일수록, 병목은 코드가 아니라 <strong>문제 정의와 현장
+       배포</strong>로 옮겨갑니다. 검증 요구를 스코프로, 스코프를 검증 서비스와 deliverable로 바꾸는 사람 —
+       그것이 DV의 FDE이고, 제가 만들려는 자리입니다.</p>
+    <p class="en">As AI writes more of the verification code itself, the bottleneck moves from writing code
+       to <strong>defining problems and deploying solutions in the field</strong>. Someone who turns
+       verification needs into scope, and scope into verification services and deliverables — that is the
+       FDE of DV, and that is the role I intend to build.</p>
+  </div>
+</section>
+
+<!-- ============ 03 타임라인 ============ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2><span class="ko">경로</span><span class="en">Path</span></h2>
+    <span class="sec-note"><span class="ko">현재 사내벤처와 센서설계 조직 과제를 병행</span><span class="en">Currently spanning in-house venture &amp; sensor design org</span></span>
   </div>
   <div class="tl">
     <div class="tl-row now">
       <div class="tl-when">2026</div>
-      <div class="tl-what"><b>API Register 검증영역 표준화</b>
-        <span>— 고객 전달용 검증영역 표준 산출물 체계 (겸직 과제 · 주도)</span></div>
+      <div class="tl-what">
+        <span class="ko"><b>API Register 검증영역 표준화</b> <span class="d">— 고객 전달용 검증영역 표준 산출물 체계 (겸직 과제 · 주도)</span></span>
+        <span class="en"><b>API Register Verification-Scope Standardization</b> <span class="d">— standard client deliverables for verified ranges (concurrent role · lead)</span></span>
+      </div>
     </div>
     <div class="tl-row now">
       <div class="tl-when">2026</div>
-      <div class="tl-what"><b>HW-SW Co-Optimization Toolchain</b>
-        <span>— 파형 PC 신호에서 함수별 SW 프로파일 복원</span></div>
+      <div class="tl-what">
+        <span class="ko"><b>HW-SW Co-Optimization Toolchain</b> <span class="d">— 파형 PC 신호에서 함수별 SW 프로파일 복원</span></span>
+        <span class="en"><b>HW-SW Co-Optimization Toolchain</b> <span class="d">— reconstructing SW profiles from waveform PC signals</span></span>
+      </div>
     </div>
     <div class="tl-row now">
-      <div class="tl-when">2024 — 현재</div>
-      <div class="tl-what"><b>ArchXplorer</b> · SoC 설계 탐색 플랫폼 (사내벤처)
-        <span>— 트랜잭션 레벨 시뮬레이터 · RTL 제너레이터 · 디버거</span></div>
+      <div class="tl-when"><span class="ko">2024 — 현재</span><span class="en">2024 — present</span></div>
+      <div class="tl-what">
+        <span class="ko"><b>ArchXplorer</b> · SoC 설계 탐색 플랫폼 (사내벤처) <span class="d">— 트랜잭션 레벨 시뮬레이터 · RTL 제너레이터 · 디버거</span></span>
+        <span class="en"><b>ArchXplorer</b> · SoC design exploration platform (in-house venture) <span class="d">— TLM simulator · RTL generator · debugger</span></span>
+      </div>
     </div>
     <div class="tl-row">
       <div class="tl-when">2022 — 2024</div>
-      <div class="tl-what"><b>Software Architecture Lab</b>
-        <span>— Fab 시뮬레이터 최적화 · 장비 데이터 파이프라인</span></div>
+      <div class="tl-what">
+        <span class="ko"><b>Software Architecture Lab</b> <span class="d">— Fab 시뮬레이터 최적화 · 장비 데이터 파이프라인</span></span>
+        <span class="en"><b>Software Architecture Lab</b> <span class="d">— fab simulator optimization · equipment data pipelines</span></span>
+      </div>
     </div>
     <div class="tl-row">
       <div class="tl-when">2020 — 2022</div>
-      <div class="tl-what"><b>IT Strategy Group</b>
-        <span>— DS 부문 엔터프라이즈 아키텍처 · IT 거버넌스</span></div>
+      <div class="tl-what">
+        <span class="ko"><b>IT Strategy Group</b> <span class="d">— DS 부문 엔터프라이즈 아키텍처 · IT 거버넌스</span></span>
+        <span class="en"><b>IT Strategy Group</b> <span class="d">— enterprise architecture &amp; IT governance, DS sector</span></span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 03 프로젝트 ============ -->
+<!-- ============ 04 프로젝트 ============ -->
 <section>
   <div class="sec-head">
-    <span class="sec-num">03</span>
-    <h2>프로젝트</h2>
-    <span class="sec-note">사내 식별자 · 코드명 · 고객 정보는 모두 제외</span>
+    <span class="sec-num">04</span>
+    <h2><span class="ko">프로젝트</span><span class="en">Projects</span></h2>
+    <span class="sec-note"><span class="ko">사내 식별자 · 코드명 · 고객 정보는 모두 제외</span><span class="en">Internal identifiers, codenames &amp; customer info excluded</span></span>
   </div>
 
-  <!-- P1 -->
+  <!-- ArchXplorer -->
   <article class="proj">
     <div class="proj-head">
       <div class="proj-tags">
-        <span class="tag hero">사내벤처 · 런칭</span><span class="tag">TLM 시뮬레이터</span>
+        <span class="tag hero"><span class="ko">사내벤처 · 런칭</span><span class="en">In-house venture · launched</span></span>
+        <span class="tag"><span class="ko">TLM 시뮬레이터</span><span class="en">TLM simulator</span></span>
         <span class="tag">RISC-V FW</span><span class="tag">DevOps</span><span class="tag">C++</span>
       </div>
-      <h3>ArchXplorer — SoC 설계 탐색 플랫폼
-        <span class="org">사내벤처 제품 · 2024 — 현재 · <a href="archxplorer.html" style="color:var(--accent)">상세 보기 →</a></span></h3>
-      <p class="oneline">트랜잭션 레벨 시뮬레이터와 웹 서비스로 초기 단계 PPA 프로파일링과 FW 개발을 가능하게 한 제품.</p>
+      <h3 class="pt"><span class="ko">ArchXplorer — SoC 설계 탐색 플랫폼</span><span class="en">ArchXplorer — SoC Design Exploration Platform</span>
+        <span class="org"><span class="ko">사내벤처 제품 · 2024 — 현재 · </span><span class="en">In-house venture product · 2024 — present · </span><a href="archxplorer.html"><span class="ko">상세 보기 →</span><span class="en">Details →</span></a></span></h3>
+      <p class="oneline">
+        <span class="ko">트랜잭션 레벨 시뮬레이터와 웹 서비스로 초기 단계 PPA 프로파일링과 FW 개발을 가능하게 한 제품.</span>
+        <span class="en">A product enabling early-stage PPA profiling and firmware development via a transaction-level simulator and web service.</span>
+      </p>
     </div>
     <div class="proj-body">
       <div class="blk">
-        <div class="blk-t">결과</div>
+        <div class="blk-t"><span class="ko">결과</span><span class="en">Results</span></div>
         <div class="kv">
-          <div><b>설계팀 · 연구소 실사용</b><span>Milestone별 IP 모델링·샘플 제공. TG interrupt timing 기반 ISR 검증에 연구소 적극 활용</span></div>
-          <div><b>정확도 +15%</b><span>FW 전체 실행 cycle 시간 비교로 측정 (측정 체계 추후 고도화 예정)</span></div>
-          <div><b>부팅 시간 −25%</b><span>인터럽트 컨트롤러·ISR의 선택적 초기화를 디버깅·최적화 (RISC-V 테스트 FW)</span></div>
+          <div><b class="ko">설계팀 · 연구소 실사용</b><b class="en">Used by design team &amp; lab</b>
+            <span class="ko">Milestone별 IP 모델링·샘플 제공. TG interrupt timing 기반 ISR 검증에 연구소 적극 활용</span>
+            <span class="en">Per-milestone IP models &amp; samples; research lab actively uses it for TG-interrupt-timing ISR verification</span></div>
+          <div><b class="ko">정확도 +15%</b><b class="en">Accuracy +15%</b>
+            <span class="ko">FW 전체 실행 cycle 시간 비교로 측정 (측정 체계 추후 고도화 예정)</span>
+            <span class="en">Measured by total FW execution cycles (measurement to be refined)</span></div>
+          <div><b class="ko">부팅 시간 −25%</b><b class="en">Boot time −25%</b>
+            <span class="ko">인터럽트 컨트롤러·ISR의 선택적 초기화를 디버깅·최적화 (RISC-V 테스트 FW)</span>
+            <span class="en">Debugged &amp; optimized selective ISR initialization (RISC-V test FW)</span></div>
         </div>
       </div>
       <div class="blk">
-        <div class="blk-t">검증 축 — Mocking 기반 동작 점검</div>
-        <p>TLM 정확도의 구조적 한계를 인정하는 대신, 검증 기준을 <strong>"FW의 ISR이 적절한 시점에 도는가"</strong>로
+        <div class="blk-t"><span class="ko">검증 축 — Mocking 기반 동작 점검</span><span class="en">Verification axis — mocking-based behavior checks</span></div>
+        <p class="ko">TLM 정확도의 구조적 한계를 인정하는 대신, 검증 기준을 <strong>"FW의 ISR이 적절한 시점에 도는가"</strong>로
            잡았습니다. 원하는 시뮬레이션 타임에 interrupt·bus IO·I2C 데이터를 주입하고 결과를 확인하는
            mocking tool(host_communicator) 중심의 점검 체계입니다. 최근에는 <strong>FW 선개발과
            coverage 확보를 위한 사전 플랫폼</strong>이라는 use case로 플랫폼의 의미를 넓혀가는 중입니다.</p>
+        <p class="en">Accepting the structural accuracy limits of TLM, we set the verification criterion as
+           <strong>"does the firmware's ISR fire at the right time?"</strong> — a check system centered on a mocking
+           tool (host_communicator) that injects interrupt / bus-IO / I2C data at chosen simulation times.
+           The platform is now growing into a <strong>pre-development platform for early firmware work and
+           coverage assurance</strong>.</p>
       </div>
       <div class="blk">
-        <div class="blk-t">그 외</div>
-        <p>NCA Simulator, RTL Generator, 원격 Debugger로 플랫폼을 구성하고, 아키텍처 구성·프로파일링·
+        <div class="blk-t"><span class="ko">그 외</span><span class="en">Also</span></div>
+        <p class="ko">NCA Simulator, RTL Generator, 원격 Debugger로 플랫폼을 구성하고, 아키텍처 구성·프로파일링·
            원격 디버깅용 UI와 API를 개발했습니다. Cypress·GTest·GitHub Actions·Docker로 제품 신뢰성을
            담보하는 DevOps 파이프라인을 구축했습니다.</p>
+        <p class="en">The platform comprises the NCA Simulator, RTL Generator, and a remote debugger; I built
+           the UI and APIs for architecture configuration, profiling, and remote debugging, plus a DevOps
+           pipeline (Cypress, GTest, GitHub Actions, Docker) that underwrites product reliability.</p>
       </div>
     </div>
   </article>
 
+  <!-- API Register -->
   <article class="proj">
     <div class="proj-head">
       <div class="proj-tags">
-        <span class="tag hero">본인 주도 · 진행 중</span><span class="tag">이미지 센서</span>
-        <span class="tag">검증영역 표준화</span><span class="tag">YAML · Python</span>
+        <span class="tag hero"><span class="ko">본인 주도 · 진행 중</span><span class="en">Leading · in progress</span></span>
+        <span class="tag"><span class="ko">이미지 센서</span><span class="en">Image sensor</span></span>
+        <span class="tag"><span class="ko">검증영역 표준화</span><span class="en">Scope standardization</span></span>
+        <span class="tag">YAML · Python</span>
       </div>
-      <h3>Client용 API Register 검증영역 표준화
-        <span class="org">센서설계 조직 겸직 과제 · 2026 · <a href="api-register.html" style="color:var(--accent)">상세 보기 →</a></span></h3>
-      <p class="oneline">고객의 애매한 요구에서 진짜 질문을 꺼내, 암묵지였던 검증영역을 표준 산출물로 바꾸는 중이다.</p>
+      <h3 class="pt"><span class="ko">Client용 API Register 검증영역 표준화</span><span class="en">API-Register Verification-Scope Standardization for Clients</span>
+        <span class="org"><span class="ko">센서설계 조직 겸직 과제 · 2026 · </span><span class="en">Sensor design org, concurrent role · 2026 · </span><a href="api-register.html"><span class="ko">상세 보기 →</span><span class="en">Details →</span></a></span></h3>
+      <p class="oneline">
+        <span class="ko">고객의 애매한 요구에서 진짜 질문을 꺼내, 암묵지였던 검증영역을 표준 산출물로 바꾸는 중이다.</span>
+        <span class="en">Extracting the real question from an ambiguous customer request, and turning tacit verification scope into standard deliverables.</span>
+      </p>
     </div>
     <div class="proj-body">
       <div class="blk">
-        <div class="blk-t">문제 정의 — 내 기여의 시작점</div>
-        <p>고객(AP 측)의 요청은 "API register 세팅 가이드를 달라"였지만, 실제 질문은
+        <div class="blk-t"><span class="ko">문제 정의 — 내 기여의 시작점</span><span class="en">Problem definition — where my contribution starts</span></div>
+        <p class="ko">고객(AP 측)의 요청은 "API register 세팅 가이드를 달라"였지만, 실제 질문은
            <strong>"검증 수준이 어디까지인가"</strong>였고 조직에는 그 답을 전달할 프로세스가 없었습니다.
            나는 이를 <strong>FW / DV / Solution constraint의 3계층 모델</strong>로 분해하고, 레지스터 간
            정합성 수식(Frame Length·Exposure Time 등)은 constraint가 아닌 별도 Guide 층위로 분리했습니다.</p>
+        <p class="en">The customer (AP side) asked for "an API register setting guide" — but the real question was
+           <strong>"how far does your verification actually go?"</strong>, and the organization had no process
+           to answer it. I decomposed this into a <strong>3-tier constraint model (FW / DV / Solution)</strong>,
+           and split cross-register integrity conditions (frame length, exposure time) into a separate
+           Guide layer rather than constraints.</p>
       </div>
       <div class="blk">
-        <div class="blk-t">산출물</div>
-        <p>1차: 기계판독형이되 사람이 읽을 수 있는 <strong>YAML + 수동 열람용 HTML</strong> (구현).
+        <div class="blk-t"><span class="ko">산출물</span><span class="en">Deliverables</span></div>
+        <p class="ko">1차: 기계판독형이되 사람이 읽을 수 있는 <strong>YAML + 수동 열람용 HTML</strong> (구현).
            2차: 고객 setfile의 값 유효성을 자동 판정하는 <strong>Python 확장</strong> (진행 중).
            3차: 정합성 수식까지 반영한 세팅 가이드 (타당성 검토 중).
            DV 코드에 naming rule을 도입해 추출 자체가 필요 없어지는 <strong>프로세스 표준화</strong>를 함께 제안하고 있습니다.</p>
+        <p class="en">Phase 1: machine-readable yet human-friendly <strong>YAML plus a browsable HTML view</strong> (shipped).
+           Phase 2: a <strong>Python extension</strong> auto-validating bulk customer setfiles (in progress).
+           Phase 3: a setting guide covering integrity formulas (feasibility under review). Alongside these, I am
+           proposing <strong>process standardization</strong> — DV naming rules that make extraction unnecessary altogether.</p>
       </div>
       <div class="blk">
-        <div class="blk-t">도메인 기반</div>
-        <p>이 프로젝트의 밑천은 센서 FW 타이밍 도메인 분석입니다 — 프레임 타이밍 레퍼런스 모델 체계,
+        <div class="blk-t"><span class="ko">도메인 기반</span><span class="en">Domain foundation</span></div>
+        <p class="ko">이 프로젝트의 밑천은 센서 FW 타이밍 도메인 분석입니다 — 프레임 타이밍 레퍼런스 모델 체계,
            제어/데이터 버스 분리 구조, 임베디드 메타데이터의 전송 효율 영향(대부분 0.1% 이하) 등을
            정량 분석하며 쌓은 지식이 계층 모델 설계의 근거가 됐습니다.</p>
+        <p class="en">The groundwork is sensor-firmware timing domain analysis — frame-timing reference-model
+           structure, control/data bus separation, and the quantified transport-efficiency impact of embedded
+           metadata (mostly under 0.1%). That knowledge grounds the layered model design.</p>
       </div>
     </div>
   </article>
 
+  <!-- Toolchain (compact) -->
   <article class="proj">
     <div class="proj-head">
       <div class="proj-tags">
         <span class="tag">Pre-Silicon</span><span class="tag">SW Coverage</span>
-        <span class="tag">Callgrind</span><span class="tag warn">팀 과제 — 요구사항 정의로 참여</span>
+        <span class="tag">Callgrind</span>
+        <span class="tag warn"><span class="ko">팀 과제 — 요구사항 정의로 참여</span><span class="en">Team project — joined as requirements definer</span></span>
       </div>
-      <h3>HW-SW Co-Optimization Toolchain
-        <span class="org">WaveScope + Performance Profiler · 2026 · <a href="toolchain.html" style="color:var(--accent)">상세 보기 →</a></span></h3>
-      <p class="oneline">RTL 파형의 PC 신호만으로 SW 프로파일을 복원하는 팀 과제 — 사용자 관점의 요구를 정의하고 다음 단계를 설계했다.</p>
+      <h3 class="pt">HW-SW Co-Optimization Toolchain
+        <span class="org">WaveScope + Performance Profiler · 2026 · <a href="toolchain.html"><span class="ko">상세 보기 →</span><span class="en">Details →</span></a></span></h3>
+      <p class="oneline">
+        <span class="ko">RTL 파형의 PC 신호만으로 SW 프로파일을 복원하는 팀 과제 — 사용자 관점의 요구를 정의하고 다음 단계를 설계했다.</span>
+        <span class="en">A team project reconstructing SW profiles purely from waveform PC signals — I defined the user-side requirements and designed the next step.</span>
+      </p>
     </div>
     <div class="proj-body">
       <div class="blk">
-        <div class="blk-t">역할과 기여</div>
-        <p>메이저 개발은 팀 동료의 작업이고, 나는 실사용자 자리에서 <strong>도구가 답해야 할 질문을
+        <div class="blk-t"><span class="ko">역할과 기여</span><span class="en">Role &amp; contribution</span></div>
+        <p class="ko">메이저 개발은 팀 동료의 작업이고, 나는 실사용자 자리에서 <strong>도구가 답해야 할 질문을
            정의하는 역할</strong>로 참여했습니다 — SW coverage 단일 지표, 다중 런 병합·비교 중심,
            파일로 남아 공유·재분석 가능한 결과. DV 현장의 coverage 니즈를 요구사항으로 번역해 전달했습니다.</p>
+        <p class="en">A teammate did the major development; I joined from the user's seat, <strong>defining the
+           questions the tool must answer</strong> — a single coverage metric, multi-run merge/compare at the
+           center, and file-based results that can be shared and re-analyzed. I translated the DV field's
+           coverage needs into requirements.</p>
       </div>
       <div class="blk">
-        <div class="blk-t">넥스트 아이템 — 내 제안</div>
-        <p>복원된 PC 트레이스를 NCA류 <strong>트랜잭션 레벨 표현으로 변환</strong>해 DV 엔지니어가
+        <div class="blk-t"><span class="ko">넥스트 아이템 — 내 제안</span><span class="en">Next item — my proposal</span></div>
+        <p class="ko">복원된 PC 트레이스를 NCA류 <strong>트랜잭션 레벨 표현으로 변환</strong>해 DV 엔지니어가
            system flow 전체를 이해하게 하는 다음 단계를 제안했습니다. ArchXplorer의 TLM 모델링 경험과
            SW coverage 사용자 요구가 만나는 교차점의 아이템입니다.</p>
+        <p class="en">I proposed the next step: <strong>converting reconstructed PC traces into NCA-style
+           transaction-level views</strong> so DV engineers can reason about full system flow. It sits precisely
+           at the intersection of my TLM modeling experience from ArchXplorer and the SW-coverage needs I defined here.</p>
       </div>
     </div>
   </article>
 
+  <!-- Fab -->
   <article class="proj">
     <div class="proj-head">
       <div class="proj-tags">
-        <span class="tag">성능 최적화</span><span class="tag">C++</span>
-        <span class="tag">Kafka</span><span class="tag">개발자 도구</span>
+        <span class="tag"><span class="ko">성능 최적화</span><span class="en">Performance</span></span>
+        <span class="tag">C++</span><span class="tag">Kafka</span>
+        <span class="tag"><span class="ko">개발자 도구</span><span class="en">Developer tools</span></span>
       </div>
-      <h3>Fab 시뮬레이터 &amp; 장비 데이터 파이프라인
+      <h3 class="pt"><span class="ko">Fab 시뮬레이터 &amp; 장비 데이터 파이프라인</span><span class="en">Fab Simulator &amp; Equipment Data Pipeline</span>
         <span class="org">Software Architecture Lab · 2022 — 2024</span></h3>
-      <p class="oneline">성능·메모리 분석으로 병목을 규명하고, 관측 도구를 직접 만들어 팀의 눈을 밝혔다.</p>
+      <p class="oneline">
+        <span class="ko">성능·메모리 분석으로 병목을 규명하고, 관측 도구를 직접 만들어 팀의 눈을 밝혔다.</span>
+        <span class="en">Pinpointed bottlenecks through performance and memory analysis, and built the team's observability tools by hand.</span>
+      </p>
     </div>
     <div class="proj-body">
       <div class="blk">
-        <div class="blk-t">결과</div>
+        <div class="blk-t"><span class="ko">결과</span><span class="en">Results</span></div>
         <div class="kv">
-          <div><b>시뮬레이터 속도 +300%</b><span>정적 메모리 할당, 메모리 지역성이 높은 자료구조, 분기 예측 힌팅 개선</span></div>
-          <div><b>데이터 손실 −45%</b><span>장비 데이터 수집 시스템에 Kafka 메시지 프레임워크 적용</span></div>
+          <div><b class="ko">시뮬레이터 속도 +300%</b><b class="en">Simulator speed +300%</b>
+            <span class="ko">정적 메모리 할당, 메모리 지역성이 높은 자료구조, 분기 예측 힌팅 개선</span>
+            <span class="en">Static allocation, cache-friendly data structures, branch-prediction hinting</span></div>
+          <div><b class="ko">데이터 손실 −45%</b><b class="en">Data loss −45%</b>
+            <span class="ko">장비 데이터 수집 시스템에 Kafka 메시지 프레임워크 적용</span>
+            <span class="en">Applied a Kafka messaging framework to the equipment data collection system</span></div>
         </div>
       </div>
       <div class="blk">
-        <div class="blk-t">개발자 도구</div>
-        <p>자료구조 디버그 비주얼라이저, 덤프 검증기, 코드 제너레이터, 트레이스 로거를 직접 만들어
+        <div class="blk-t"><span class="ko">개발자 도구</span><span class="en">Developer tools</span></div>
+        <p class="ko">자료구조 디버그 비주얼라이저, 덤프 검증기, 코드 제너레이터, 트레이스 로거를 직접 만들어
            관측성과 생산성을 높였습니다. "측정할 수 없으면 개선할 수 없다"를 도구로 해결하는 방식이
            이때 자리 잡았고, 이후 프로젝트로 그대로 이어집니다.</p>
+        <p class="en">I built data-structure debug visualizers, dump verifiers, code generators, and trace loggers,
+           raising observability and productivity. Solving "you can't improve what you can't measure" with tools
+           took root here — and carries straight into every project since.</p>
       </div>
     </div>
   </article>
 
+  <!-- IT -->
   <article class="proj">
     <div class="proj-head">
-      <div class="proj-tags"><span class="tag">엔터프라이즈 아키텍처</span><span class="tag">IT 거버넌스</span></div>
-      <h3>전사 IT 아키텍처 &amp; 거버넌스
+      <div class="proj-tags">
+        <span class="tag"><span class="ko">엔터프라이즈 아키텍처</span><span class="en">Enterprise architecture</span></span>
+        <span class="tag"><span class="ko">IT 거버넌스</span><span class="en">IT governance</span></span>
+      </div>
+      <h3 class="pt"><span class="ko">전사 IT 아키텍처 &amp; 거버넌스</span><span class="en">Enterprise IT Architecture &amp; Governance</span>
         <span class="org">IT Strategy Group · 2020 — 2022</span></h3>
-      <p class="oneline">DS 부문의 엔터프라이즈 아키텍처를 수립하고 IT 거버넌스를 운영했다.</p>
+      <p class="oneline">
+        <span class="ko">DS 부문의 엔터프라이즈 아키텍처를 수립하고 IT 거버넌스를 운영했다.</span>
+        <span class="en">Established enterprise architecture and ran IT governance for the DS sector.</span>
+      </p>
     </div>
     <div class="proj-body">
       <div class="blk">
-        <p>엔지니어링 커리어의 출발점이자, 개별 문제를 시스템 전체의 구조로 보는 관점을 얻은 구간입니다.
+        <p class="ko">엔지니어링 커리어의 출발점이자, 개별 문제를 시스템 전체의 구조로 보는 관점을 얻은 구간입니다.
            이후 도구와 플랫폼을 설계할 때 "한 사람의 문제인가, 조직의 구조 문제인가"를 먼저 묻는 습관의 근원입니다.</p>
+        <p class="en">The starting point of my engineering career — where I learned to see individual problems as
+           parts of a system's structure. It is the origin of a habit I keep when designing tools and platforms:
+           first asking "is this one person's problem, or the organization's structural problem?"</p>
       </div>
     </div>
   </article>
 </section>
 
-<!-- ============ 04 역량 ============ -->
+<!-- ============ 05 역량 ============ -->
 <section>
   <div class="sec-head">
-    <span class="sec-num">04</span>
-    <h2>역량 · 자격</h2>
+    <span class="sec-num">05</span>
+    <h2><span class="ko">역량 · 자격</span><span class="en">Skills &amp; Credentials</span></h2>
   </div>
   <div class="grid2">
     <div class="lane">
       <div class="lane-t">Engineering</div>
-      <p><b>언어</b> · C++(주력), Python, TypeScript / Next.js, Java, Verilog</p>
-      <p><b>검증 · 분석</b> · 파형 분석(VCD/FSDB/TRN/SHM), callgrind·cachegrind, GTest,
-         Playwright, differential 검증, ELF / DWARF, ISA 인코딩 (RISC-V · ARM)</p>
-      <p><b>도구</b> · Docker, Git, Perfetto, VTune, GTKWave, Valgrind, GitHub Actions, Cypress</p>
-      <p><b>도메인</b> · Pre-silicon 검증, 트랜잭션 레벨 모델링, RISC-V 펌웨어,
-         이미지 센서 FW 타이밍, 성능 프로파일링, 데이터 파이프라인</p>
+      <p><b class="ko">언어</b><b class="en">Languages</b> · <span class="ko">C++(주력), Python, TypeScript / Next.js, Java, Verilog</span><span class="en">C++ (primary), Python, TypeScript / Next.js, Java, Verilog</span></p>
+      <p><b class="ko">검증 · 분석</b><b class="en">Verification &amp; analysis</b> · <span class="ko">파형 분석(VCD/FSDB/TRN/SHM), callgrind·cachegrind, GTest,
+         Playwright, differential 검증, ELF / DWARF, ISA 인코딩 (RISC-V · ARM)</span><span class="en">waveform analysis (VCD/FSDB/TRN/SHM), callgrind·cachegrind, GTest,
+         Playwright, differential testing, ELF / DWARF, ISA encodings (RISC-V · ARM)</span></p>
+      <p><b class="ko">도구</b><b class="en">Tools</b> · Docker, Git, Perfetto, VTune, GTKWave, Valgrind, GitHub Actions, Cypress</p>
+      <p><b class="ko">도메인</b><b class="en">Domains</b> · <span class="ko">Pre-silicon 검증, 트랜잭션 레벨 모델링, RISC-V 펌웨어,
+         이미지 센서 FW 타이밍, 성능 프로파일링, 데이터 파이프라인</span><span class="en">pre-silicon verification, transaction-level modeling, RISC-V firmware,
+         image-sensor FW timing, performance profiling, data pipelines</span></p>
     </div>
     <div class="lane">
       <div class="lane-t">Credentials</div>
-      <p><b>학력</b> · 성균관대학교 반도체시스템공학 학사 (2014.03 — 2020.02, GPA 4.0 / 4.5)</p>
-      <p><b>자격</b> · Samsung Professional Software Certificate (2020) ·
+      <p><b class="ko">학력</b><b class="en">Education</b> · <span class="ko">성균관대학교 반도체시스템공학 학사 (2014.03 — 2020.02, GPA 4.0 / 4.5)</span><span class="en">B.S. Semiconductor Systems Engineering, Sungkyunkwan University (Mar 2014 — Feb 2020, GPA 4.0 / 4.5)</span></p>
+      <p><b class="ko">자격</b><b class="en">Certificates</b> · Samsung Professional Software Certificate (2020) ·
          Associate Architect (2021) · Code Review Agent (2023)</p>
-      <p><b>특허 출원 중</b> · Device and Method with Control of Neural Network Bit Precision
+      <p><b class="ko">특허 출원 중</b><b class="en">Patent pending</b> · Device and Method with Control of Neural Network Bit Precision
         <span class="patent">US 19/302868 · KR 10-2025-0016828</span></p>
     </div>
   </div>
 </section>
 
 <footer>
-  <span>정유석 · Pre-Silicon Verification &amp; Tooling · 2026</span>
-  <span class="note">사내 식별자 · 코드명 · 고객 정보 비포함 · 최종 갱신 2026-08-08</span>
+  <span><span class="ko">정유석 · Pre-Silicon Verification &amp; Tooling · 2026</span><span class="en">Yuseok Jeong · Pre-Silicon Verification &amp; Tooling · 2026</span></span>
+  <span class="note"><span class="ko">사내 식별자 · 코드명 · 고객 정보 비포함 · 최종 갱신 2026-08-09</span><span class="en">No internal identifiers, codenames, or customer info · Updated 2026-08-09</span></span>
 </footer>
 
 </div>
+<script>
+function setLang(l){document.body.dataset.lang=l;document.documentElement.lang=l;
+  document.querySelectorAll('a').forEach(function(a){var h=a.getAttribute('href')||'';
+    if(h.indexOf('.html')>-1){a.setAttribute('href',h.split('#')[0]+(l==='en'?'#en':''))}});}
+setLang(location.hash==='#en'?'en':'ko');
+window.addEventListener('hashchange',function(){setLang(location.hash==='#en'?'en':'ko')});
+</script>
 </body>
 </html>

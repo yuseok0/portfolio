@@ -21,12 +21,21 @@
   .wrap{max-width:960px;margin:0 auto;background:var(--bg);
         box-shadow:0 1px 3px rgba(16,24,40,.06),0 12px 40px rgba(16,24,40,.06)}
 
+  body[data-lang="ko"] .en{display:none!important}
+  body[data-lang="en"] .ko{display:none!important}
+  .lang-toggle{position:fixed;top:16px;right:16px;z-index:99;
+    font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;
+    padding:8px 14px;border-radius:20px;border:1px solid var(--line-2);
+    background:rgba(255,255,255,.92);color:var(--ink-2);cursor:pointer;
+    box-shadow:0 2px 8px rgba(16,24,40,.12);backdrop-filter:blur(4px)}
+  .lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+
   header{background:var(--band);color:#fff;padding:44px 48px 40px;
          background-image:linear-gradient(180deg,#0f1621 0%,#141d2a 100%)}
   .crumb{font-family:var(--mono);font-size:12px;margin-bottom:22px}
   .crumb a{color:#6fb3b3;text-decoration:none}
   .crumb a:hover{color:#7fd4d0}
-  .crumb span{color:#4a5666;margin:0 8px}
+  .crumb span.sep{color:#4a5666;margin:0 8px}
   .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
            color:#6fb3b3;margin-bottom:14px}
   h1{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
@@ -55,7 +64,6 @@
          color:var(--accent);margin:26px 0 10px}
   .blk-t:first-child{margin-top:0}
 
-  /* constraint layers */
   .layers{margin-top:6px}
   .layer{display:grid;grid-template-columns:190px 1fr;border:1px solid var(--line);border-radius:8px;
          overflow:hidden;margin-bottom:10px;background:var(--bg)}
@@ -69,7 +77,6 @@
   .layer.l4 .name{background:var(--amber-soft);color:var(--amber)}
   .layer .desc .m{font-size:12px;color:var(--ink-3);margin-top:4px}
 
-  /* roadmap */
   .road{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
   .road-card{border:1px solid var(--line);border-radius:8px;padding:18px 20px;background:var(--bg)}
   .road-card.done{border-color:#9ccfcc;background:linear-gradient(180deg,#fbfefd,#f3faf9)}
@@ -98,8 +105,6 @@
                  color:var(--accent);margin-bottom:6px}
   .story-step p{font-size:14px;line-height:1.75}
   .story-step p+p{margin-top:8px}
-  .caveat{font-size:13px;color:var(--amber);background:var(--amber-soft);border:1px solid #eedcb8;
-          border-left:3px solid var(--amber);border-radius:4px;padding:11px 14px;line-height:1.65;margin-top:20px}
 
   footer{padding:24px 48px;background:var(--bg-2);font-size:12.5px;color:var(--ink-3);
          display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
@@ -116,6 +121,7 @@
     table{font-size:12.5px}
     th,td{padding:9px 10px}
     td:first-child{white-space:normal}
+    .lang-toggle{top:10px;right:10px}
   }
   @media print{
     body{background:#fff;font-size:12px}
@@ -123,24 +129,36 @@
     header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
     section{padding:24px 0}
     .layer,.road-card,.story-step{break-inside:avoid}
+    .lang-toggle{display:none}
   }
 </style>
 </head>
-<body>
+<body data-lang="ko">
+<button class="lang-toggle" onclick="setLang(document.body.dataset.lang==='ko'?'en':'ko')">
+  <span class="ko">EN</span><span class="en">한국어</span>
+</button>
 <div class="wrap">
 
 <header>
-  <div class="crumb"><a href="index.html">← 전체 포트폴리오</a><span>/</span>프로젝트 상세 3 of 3</div>
-  <div class="eyebrow">Sensor Domain · 2026 · 본인 주도 · 진행 중</div>
-  <h1>Client용 API Register<br>검증영역 표준화 &amp; Deliverable 생성</h1>
-  <p class="claim">고객의 애매한 요구에서 진짜 질문을 꺼내,<br><em>암묵지였던 검증영역을 표준 산출물</em>로 바꾸는 중이다.</p>
-  <p class="sub">이미지 센서의 API register를 고객(AP 측)이 안전하게 세팅하려면, "어디까지 검증되어 있는가"가
+  <div class="crumb"><a href="index.html"><span class="ko">← 전체 포트폴리오</span><span class="en">← Full portfolio</span></a><span class="sep">/</span><span class="ko">프로젝트 상세 3 of 3</span><span class="en">Project detail 3 of 3</span></div>
+  <div class="eyebrow"><span class="ko">Sensor Domain · 2026 · 본인 주도 · 진행 중</span><span class="en">Sensor Domain · 2026 · leading · in progress</span></div>
+  <h1><span class="ko">Client용 API Register<br>검증영역 표준화 &amp; Deliverable 생성</span><span class="en">API-Register Verification-Scope<br>Standardization &amp; Deliverables for Clients</span></h1>
+  <p class="claim">
+    <span class="ko">고객의 애매한 요구에서 진짜 질문을 꺼내,<br><em>암묵지였던 검증영역을 표준 산출물</em>로 바꾸는 중이다.</span>
+    <span class="en">Extracting the real question from an ambiguous request,<br>turning <em>tacit verification scope into standard deliverables</em>.</span>
+  </p>
+  <p class="sub">
+    <span class="ko">이미지 센서의 API register를 고객(AP 측)이 안전하게 세팅하려면, "어디까지 검증되어 있는가"가
      먼저 답해져야 합니다. 그 답이 조직 어디에도 문서로 존재하지 않던 상태에서, 문제 정의부터 산출물 체계까지
-     직접 설계하고 있는 프로젝트입니다.</p>
+     직접 설계하고 있는 프로젝트입니다.</span>
+    <span class="en">For a customer (AP side) to set an image sensor's API registers safely, one question must be
+     answered first: "how far has this been verified?" That answer existed nowhere in the organization as a
+     document — this project designs everything from the problem definition to the deliverable system.</span>
+  </p>
   <div class="role-strip">
-    <span class="r">내 역할 — <b>문제 정의 (컨설팅)</b></span>
-    <span class="r"><b>Constraint 계층 모델 설계</b></span>
-    <span class="r"><b>Deliverable 포맷 설계·구현 주도</b></span>
+    <span class="r"><span class="ko">내 역할 — </span><span class="en">My role — </span><b><span class="ko">문제 정의 (컨설팅)</span><span class="en">Problem definition (consulting)</span></b></span>
+    <span class="r"><b><span class="ko">Constraint 계층 모델 설계</span><span class="en">Layered constraint model design</span></b></span>
+    <span class="r"><b><span class="ko">Deliverable 포맷 설계·구현 주도</span><span class="en">Deliverable format design &amp; implementation lead</span></b></span>
   </div>
 </header>
 
@@ -148,53 +166,69 @@
 <section>
   <div class="sec-head">
     <span class="sec-num">01</span>
-    <h2>구성 — Constraint 계층 모델과 산출물 로드맵</h2>
+    <h2><span class="ko">구성 — Constraint 계층 모델과 산출물 로드맵</span><span class="en">Composition — the layered constraint model &amp; deliverable roadmap</span></h2>
   </div>
 
-  <p class="lead">이 프로젝트의 뼈대는 코드가 아니라 <strong>개념 모델</strong>입니다.
+  <p class="lead ko">이 프로젝트의 뼈대는 코드가 아니라 <strong>개념 모델</strong>입니다.
      "이 레지스터는 어디까지 안전한가"라는 질문에는 사실 서로 다른 세 개의 답이 있고,
      기존에는 이 셋이 구분 없이 뒤섞여 있었습니다. 나는 이를 계층으로 분해했습니다.</p>
+  <p class="lead en">The backbone of this project is not code but a <strong>conceptual model</strong>.
+     "How far is this register safe?" actually has three different answers, and until now the three were
+     mixed together indistinguishably. I decomposed them into layers.</p>
 
   <div class="layers">
     <div class="layer l1">
       <div class="name">FW Constraint</div>
-      <div class="desc"><p>펌웨어가 선언하는 나이브한 값 범위. 가장 넓지만, "받아들인다"와 "보증한다"는 다릅니다.</p>
-        <p class="m">출처 — FW 코드</p></div>
+      <div class="desc">
+        <p class="ko">펌웨어가 선언하는 나이브한 값 범위. 가장 넓지만, "받아들인다"와 "보증한다"는 다릅니다.</p>
+        <p class="en">The naive value range firmware declares. Broadest — but "accepts" and "guarantees" are different things.</p>
+        <p class="m"><span class="ko">출처 — FW 코드</span><span class="en">Source — FW code</span></p></div>
     </div>
     <div class="layer l2">
       <div class="name">DV Constraint</div>
-      <div class="desc"><p>DV가 설계 문서를 근거로 짐작해 검증한 범위. 실제 시뮬레이션이 닿은 영역이지만, 그 경계가 코드 속 암묵지로만 존재했습니다.</p>
-        <p class="m">출처 — DV(Verilog) 코드</p></div>
+      <div class="desc">
+        <p class="ko">DV가 설계 문서를 근거로 짐작해 검증한 범위. 실제 시뮬레이션이 닿은 영역이지만, 그 경계가 코드 속 암묵지로만 존재했습니다.</p>
+        <p class="en">The range DV inferred from design documents and verified. Simulation actually reached it — but its boundary lived only as tacit knowledge inside code.</p>
+        <p class="m"><span class="ko">출처 — DV(Verilog) 코드</span><span class="en">Source — DV (Verilog) code</span></p></div>
     </div>
     <div class="layer l3">
       <div class="name">Solution Constraint</div>
-      <div class="desc"><p>솔루션 검증 단계가 실제로 확인한 범위. 대표 모드 조합 중심의 정적 검증이라, 레지스터 constraint의 극한까지 커버하지는 않습니다.</p>
-        <p class="m">출처 — 솔루션 검증 기록</p></div>
+      <div class="desc">
+        <p class="ko">솔루션 검증 단계가 실제로 확인한 범위. 대표 모드 조합 중심의 정적 검증이라, 레지스터 constraint의 극한까지 커버하지는 않습니다.</p>
+        <p class="en">The range the solution-verification stage actually confirmed. Static verification around representative mode combinations — it does not cover registers to their constraint extremes.</p>
+        <p class="m"><span class="ko">출처 — 솔루션 검증 기록</span><span class="en">Source — solution verification records</span></p></div>
     </div>
     <div class="layer l4">
-      <div class="name">Guide (별도 층위)</div>
-      <div class="desc"><p>단일 레지스터 범위를 넘어, Frame Length·Exposure Time 등 <strong>레지스터 간 정합성 수식</strong>을 만족해야 하는 조건.
+      <div class="name"><span class="ko">Guide (별도 층위)</span><span class="en">Guide (separate layer)</span></div>
+      <div class="desc">
+        <p class="ko">단일 레지스터 범위를 넘어, Frame Length·Exposure Time 등 <strong>레지스터 간 정합성 수식</strong>을 만족해야 하는 조건.
         고객이 최종적으로 원한 것은 이 층위였고 — 나는 이것을 constraint가 아니라 <strong>가이드</strong>로 분리해야 한다고 판단했습니다.</p>
-        <p class="m">출처 — 타이밍 수식 · 도메인 지식</p></div>
+        <p class="en">Beyond single-register ranges: conditions that must satisfy <strong>cross-register integrity
+        formulas</strong> — frame length, exposure time. This layer is what the customer ultimately wanted —
+        and I judged it must be separated out as a <strong>guide</strong>, not a constraint.</p>
+        <p class="m"><span class="ko">출처 — 타이밍 수식 · 도메인 지식</span><span class="en">Source — timing formulas &amp; domain knowledge</span></p></div>
     </div>
   </div>
 
-  <div class="blk-t">Deliverable 로드맵 — 고객 요구가 단계적으로 자란 순서 그대로</div>
+  <div class="blk-t"><span class="ko">Deliverable 로드맵 — 고객 요구가 단계적으로 자란 순서 그대로</span><span class="en">Deliverable roadmap — in the exact order the customer's asks grew</span></div>
   <div class="road">
     <div class="road-card done">
-      <span class="ph">1차 — 구현</span>
+      <span class="ph"><span class="ko">1차 — 구현</span><span class="en">Phase 1 — shipped</span></span>
       <h4>YAML + HTML</h4>
-      <p>검증영역을 기계판독형 YAML로 — 단, 최대한 사람이 읽을 수 있게. 수동 열람용 HTML 뷰를 함께 제공.</p>
+      <p class="ko">검증영역을 기계판독형 YAML로 — 단, 최대한 사람이 읽을 수 있게. 수동 열람용 HTML 뷰를 함께 제공.</p>
+      <p class="en">Verification scope as machine-readable YAML — kept as human-readable as possible — plus a browsable HTML view.</p>
     </div>
     <div class="road-card now">
-      <span class="ph">2차 — 진행 중</span>
-      <h4>Setfile 검증 Python 확장</h4>
-      <p>고객이 bulky한 setfile을 보냈을 때, YAML 기준으로 값 유효성을 자동 판정하는 Python 확장.</p>
+      <span class="ph"><span class="ko">2차 — 진행 중</span><span class="en">Phase 2 — in progress</span></span>
+      <h4><span class="ko">Setfile 검증 Python 확장</span><span class="en">Setfile-validation Python extension</span></h4>
+      <p class="ko">고객이 bulky한 setfile을 보냈을 때, YAML 기준으로 값 유효성을 자동 판정하는 Python 확장.</p>
+      <p class="en">When a customer sends a bulky setfile, a Python extension auto-judges value validity against the YAML.</p>
     </div>
     <div class="road-card later">
-      <span class="ph">3차 — 검토 중</span>
-      <h4>정합성 Guide 레벨</h4>
-      <p>Exposure Time·Frame Length 등 수식 조건까지 반영한 세팅 가이드. 검증 프로세스 자체가 없어 난이도가 높고, 가능성을 검토 중.</p>
+      <span class="ph"><span class="ko">3차 — 검토 중</span><span class="en">Phase 3 — under review</span></span>
+      <h4><span class="ko">정합성 Guide 레벨</span><span class="en">Integrity-guide level</span></h4>
+      <p class="ko">Exposure Time·Frame Length 등 수식 조건까지 반영한 세팅 가이드. 검증 프로세스 자체가 없어 난이도가 높고, 가능성을 검토 중.</p>
+      <p class="en">A setting guide covering formula conditions (exposure time, frame length). Hard — no verification process exists for it yet; feasibility under review.</p>
     </div>
   </div>
 </section>
@@ -203,63 +237,86 @@
 <section>
   <div class="sec-head">
     <span class="sec-num">02</span>
-    <h2>문제의식 &amp; 해결방법론 — 요구를 받은 게 아니라, 요구를 찾아냈다</h2>
+    <h2><span class="ko">문제의식 &amp; 해결방법론 — 요구를 받은 게 아니라, 요구를 찾아냈다</span><span class="en">Problem &amp; Approach — I didn't receive the requirement; I found it</span></h2>
   </div>
 
-  <p class="lead">시작은 전형적인 고객 요청이었습니다 — "API register 세팅 가이드를 달라."
+  <p class="lead ko">시작은 전형적인 고객 요청이었습니다 — "API register 세팅 가이드를 달라."
      그런데 파고들수록 고객이 실제로 알고 싶었던 건 그 전 단계, <strong>"당신들의 검증 수준은 어디까지인가"</strong>였습니다.
      그리고 그 질문에 조직은 답을 갖고 있지 않았습니다. 검증은 대표 모드 조합 중심의 정적 검증이었고,
      레지스터 constraint를 극한까지 테스트한 적도, 그 결과를 전달하는 프로세스도 없었습니다.
      <strong>프로세스가 없는데 고객이 무언가를 달라고 하니, 무엇을 줘야 하는지부터 아무도 몰랐던 것</strong>입니다.</p>
+  <p class="lead en">It began as a typical customer request — "give us an API register setting guide."
+     But the deeper I dug, the clearer it became that what the customer really wanted was the step before that:
+     <strong>"how far does your verification actually go?"</strong> And the organization had no answer.
+     Verification was static, centered on representative mode combinations; registers had never been tested to
+     their constraint extremes, and no process existed for delivering such results.
+     <strong>With no process in place and a customer asking for something, nobody even knew what to hand over.</strong></p>
 
-  <div class="blk-t">Before — 무엇이 고장 나 있었나</div>
-  <p class="lead">검증영역은 DV 코드 속 <strong>암묵지</strong>였습니다 — 어디까지 검증됐는지는 코드를 읽은 사람의 머릿속에만.
+  <div class="blk-t"><span class="ko">Before — 무엇이 고장 나 있었나</span><span class="en">Before — what was broken</span></div>
+  <p class="lead ko">검증영역은 DV 코드 속 <strong>암묵지</strong>였습니다 — 어디까지 검증됐는지는 코드를 읽은 사람의 머릿속에만.
      문서는 수작업이라 릴리즈마다 누락과 불일치가 생겼고, 센서 프로젝트마다 전달물 포맷이 제각각이라
      표준이라 부를 것 자체가 없었습니다.</p>
+  <p class="lead en">Verification scope was <strong>tacit knowledge</strong> inside DV code — how far things were
+     verified existed only in the heads of those who had read it. Documents were hand-made, so every release bred
+     omissions and inconsistencies; every sensor project shipped a different format. There was nothing you could
+     call a standard.</p>
 
-  <div class="blk-t">방법론 — 세 번의 분리</div>
-  <p class="lead"><strong>① 질문을 분리했다.</strong> "세팅 가이드를 달라"를 "검증 수준을 알려달라 + 안전 범위를 알려달라 +
+  <div class="blk-t"><span class="ko">방법론 — 세 번의 분리</span><span class="en">Method — three separations</span></div>
+  <p class="lead ko"><strong>① 질문을 분리했다.</strong> "세팅 가이드를 달라"를 "검증 수준을 알려달라 + 안전 범위를 알려달라 +
      정합 조건을 알려달라"로 쪼갰습니다. 각각 답의 출처가 다르기 때문입니다.
      <strong>② 출처를 분리했다.</strong> FW / DV / Solution constraint 계층 모델 — 같은 레지스터에 대한 세 답이
      서로 다르다는 것 자체가 정보이고, 뭉개면 그 정보가 사라집니다.
-     <strong>③ 층위를 분리했다.</strong> 레지스터 간 정합성 수식은 constraint가 아니라 guide입니다.
-     범위 검사로 답할 수 있는 것과 없는 것을 섞으면, 산출물의 신뢰 경계가 무너집니다.</p>
-  <p class="lead">포맷은 <strong>기계판독과 가독성의 양립</strong>을 원칙으로 했습니다 — YAML은 파이프라인이 소비하고,
+     <strong>③ 층위를 분리했다.</strong> 레지스터 간 정합성 수식은 constraint가 아니라
+     guide입니다. 범위 검사로 답할 수 있는 것과 없는 것을 섞으면, 산출물의 신뢰 경계가 무너집니다.</p>
+  <p class="lead en"><strong>① Separate the questions.</strong> I split "give us a setting guide" into "tell us
+     your verification level" + "tell us the safe ranges" + "tell us the integrity conditions" — each answer has
+     a different source. <strong>② Separate the sources.</strong> The FW / DV / Solution constraint layer model —
+     that three answers about the same register differ is itself information, and blending them destroys it.
+     <strong>③ Separate the layers.</strong> Cross-register integrity formulas are guides, not constraints. Mixing
+     what range-checking can answer with what it can't collapses the deliverable's boundary of trust.</p>
+  <p class="lead ko">포맷은 <strong>기계판독과 가독성의 양립</strong>을 원칙으로 했습니다 — YAML은 파이프라인이 소비하고,
      같은 데이터를 HTML로 렌더해 사람이 검토합니다. 문서와 데이터가 갈라지면 반드시 어긋나므로,
      원천은 하나만 둡니다.</p>
+  <p class="lead en">The format principle: <strong>machine-readability and human-readability together</strong> —
+     pipelines consume the YAML, and the same data renders to HTML for human review. Documents and data drift
+     apart the moment they split, so there is exactly one source of truth.</p>
 </section>
 
 <!-- 03 현황 & 비교 -->
 <section>
   <div class="sec-head">
     <span class="sec-num">03</span>
-    <h2>현황 &amp; 기존 방식과의 비교</h2>
-    <span class="sec-note">1차 산출물 구현 · 2차 진행 중 · 3차 타당성 검토</span>
+    <h2><span class="ko">현황 &amp; 기존 방식과의 비교</span><span class="en">Status &amp; Comparison with the Old Way</span></h2>
+    <span class="sec-note"><span class="ko">1차 산출물 구현 · 2차 진행 중 · 3차 타당성 검토</span><span class="en">Phase 1 shipped · Phase 2 in progress · Phase 3 feasibility</span></span>
   </div>
   <table>
     <thead>
-      <tr><th>기준</th><th>기존 — 수작업 문서</th><th>이 체계 — 표준 산출물</th></tr>
+      <tr>
+        <th><span class="ko">기준</span><span class="en">Criterion</span></th>
+        <th><span class="ko">기존 — 수작업 문서</span><span class="en">Before — hand-made documents</span></th>
+        <th><span class="ko">이 체계 — 표준 산출물</span><span class="en">This system — standard deliverables</span></th>
+      </tr>
     </thead>
     <tbody>
       <tr>
-        <td>검증영역의 소재</td>
-        <td><span class="neg">DV 코드 속 암묵지</span> — 코드 읽은 사람만 앎</td>
-        <td><span class="pos">YAML로 명시</span> — 출처(FW/DV/Solution)별 계층 표기</td>
+        <td><span class="ko">검증영역의 소재</span><span class="en">Where scope lives</span></td>
+        <td><span class="neg"><span class="ko">DV 코드 속 암묵지</span><span class="en">Tacit, inside DV code</span></span> <span class="ko">— 코드 읽은 사람만 앎</span><span class="en">— known only to whoever read it</span></td>
+        <td><span class="pos"><span class="ko">YAML로 명시</span><span class="en">Explicit in YAML</span></span> <span class="ko">— 출처(FW/DV/Solution)별 계층 표기</span><span class="en">— layered by source (FW/DV/Solution)</span></td>
       </tr>
       <tr>
-        <td>갱신</td>
-        <td><span class="neg">릴리즈마다 수작업</span> — 누락·불일치 상습</td>
-        <td>단일 원천에서 YAML·HTML 동시 생성</td>
+        <td><span class="ko">갱신</span><span class="en">Updates</span></td>
+        <td><span class="neg"><span class="ko">릴리즈마다 수작업</span><span class="en">Manual per release</span></span> <span class="ko">— 누락·불일치 상습</span><span class="en">— chronic omissions &amp; drift</span></td>
+        <td><span class="ko">단일 원천에서 YAML·HTML 동시 생성</span><span class="en">YAML &amp; HTML generated from one source</span></td>
       </tr>
       <tr>
-        <td>고객 setfile 검토</td>
-        <td>담당자가 케이스별 수동 확인</td>
-        <td><span class="pos">Python 확장으로 자동 판정</span> (2차, 진행 중)</td>
+        <td><span class="ko">고객 setfile 검토</span><span class="en">Customer setfile review</span></td>
+        <td><span class="ko">담당자가 케이스별 수동 확인</span><span class="en">Case-by-case manual checks</span></td>
+        <td><span class="pos"><span class="ko">Python 확장으로 자동 판정</span><span class="en">Auto-judged by Python extension</span></span> <span class="ko">(2차, 진행 중)</span><span class="en">(Phase 2, in progress)</span></td>
       </tr>
       <tr class="hl">
-        <td>프로젝트 간 이식성</td>
-        <td>프로젝트마다 포맷 제각각</td>
-        <td>스키마 표준화 — 새 프로젝트는 데이터만 교체</td>
+        <td><span class="ko">프로젝트 간 이식성</span><span class="en">Cross-project portability</span></td>
+        <td><span class="ko">프로젝트마다 포맷 제각각</span><span class="en">A different format every project</span></td>
+        <td><span class="ko">스키마 표준화 — 새 프로젝트는 데이터만 교체</span><span class="en">Standardized schema — new projects swap only data</span></td>
       </tr>
     </tbody>
   </table>
@@ -269,64 +326,93 @@
 <section>
   <div class="sec-head">
     <span class="sec-num">04</span>
-    <h2>내가 겪은 일 — 트러블슈팅</h2>
+    <h2><span class="ko">내가 겪은 일 — 트러블슈팅</span><span class="en">What I Ran Into — Troubleshooting</span></h2>
   </div>
 
-  <div class="blk-t">EP.1 — "DV 코드에는 api_register가 없다"</div>
+  <div class="blk-t"><span class="ko">EP.1 — "DV 코드에는 api_register가 없다"</span><span class="en">EP.1 — "There is no api_register in DV code"</span></div>
   <div class="story">
     <div class="story-step">
-      <div class="k">문제</div>
-      <p>검증영역을 DV 코드에서 추출하는 일은 생각보다 훨씬 복잡했습니다. DV 코드는 Verilog라서
+      <div class="k"><span class="ko">문제</span><span class="en">Problem</span></div>
+      <p class="ko">검증영역을 DV 코드에서 추출하는 일은 생각보다 훨씬 복잡했습니다. DV 코드는 Verilog라서
          검증자가 <strong>레지스터를 아무 방식으로나 자유롭게 세팅할 수 있고</strong>, 통일된 룰이 없습니다.
          결정적으로, DV 코드가 다루는 것은 HW 신호 층위라 <strong>api_register라는 개념 자체가 코드에 등장하지 않습니다.</strong>
          AI를 동원해 추출해도, 매핑을 판정할 명확한 룰이 없으니 결과를 신뢰할 수 없었습니다.</p>
+      <p class="en">Extracting verification scope from DV code was far messier than expected. DV code is Verilog:
+         verifiers can <strong>set registers any way they like</strong>, with no unified rules. Crucially, DV code
+         operates at the HW-signal level, so <strong>the concept of an api_register never even appears in it.</strong>
+         Even with AI-assisted extraction, there was no clear rule to judge the mapping — the results couldn't be trusted.</p>
     </div>
     <div class="story-step">
-      <div class="k">지금의 해법과 한계</div>
-      <p>지금은 케이스 바이 케이스로 검증 코드를 따져가며 수동 매핑하고 있습니다. 돌아가지만,
+      <div class="k"><span class="ko">지금의 해법과 한계</span><span class="en">Current fix, and its limits</span></div>
+      <p class="ko">지금은 케이스 바이 케이스로 검증 코드를 따져가며 수동 매핑하고 있습니다. 돌아가지만,
          확장되지 않는 방식이라는 걸 압니다.</p>
+      <p class="en">For now I map case by case, reasoning through the verification code by hand. It works —
+         and I know it doesn't scale.</p>
     </div>
     <div class="story-step">
-      <div class="k">구조적 제안</div>
-      <p>그래서 추출을 더 잘하는 쪽이 아니라 <strong>추출이 필요 없어지는 쪽</strong>을 제안하고 있습니다 —
+      <div class="k"><span class="ko">구조적 제안</span><span class="en">Structural proposal</span></div>
+      <p class="ko">그래서 추출을 더 잘하는 쪽이 아니라 <strong>추출이 필요 없어지는 쪽</strong>을 제안하고 있습니다 —
          DV 코드에 naming rule을 도입해 레지스터 세팅이 스스로를 설명하게 만들고, 규칙 위반을 sanity check로
          걸러내는 가이드를 세우는 것. 시스템적으로 가야 다음 프로젝트에서도 살아남습니다.
          일회성 문서가 아니라 프로세스를 남기는 것이 이 프로젝트의 진짜 목표입니다.</p>
+      <p class="en">So my proposal is not to extract better, but to <strong>make extraction unnecessary</strong> —
+         introduce naming rules in DV code so register settings describe themselves, and a guide that catches
+         violations via sanity checks. Only the systematic route survives into the next project. The real goal
+         here is to leave behind a process, not a one-off document.</p>
     </div>
   </div>
 
-  <div class="blk-t">EP.2 — "FW와 DV의 말이 달랐다"</div>
+  <div class="blk-t"><span class="ko">EP.2 — "FW와 DV의 말이 달랐다"</span><span class="en">EP.2 — "FW and DV told different stories"</span></div>
   <div class="story">
     <div class="story-step">
-      <div class="k">발견</div>
-      <p>같은 레지스터를 두고 FW constraint와 DV가 실제 검증한 범위가 어긋나는 경우들이 나왔습니다.
+      <div class="k"><span class="ko">발견</span><span class="en">Discovery</span></div>
+      <p class="ko">같은 레지스터를 두고 FW constraint와 DV가 실제 검증한 범위가 어긋나는 경우들이 나왔습니다.
          FW는 받아들이는데 DV는 본 적 없는 값 — 고객이 그 틈의 값을 쓰면, 아무도 보증한 적 없는 동작이 필드로 나갑니다.</p>
+      <p class="en">Cases surfaced where, for the same register, the FW constraint and DV's actually-verified range
+         disagreed. Values firmware accepts but DV has never seen — if a customer uses a value in that gap,
+         behavior nobody ever vouched for ships to the field.</p>
     </div>
     <div class="story-step">
-      <div class="k">의미</div>
-      <p>이 불일치야말로 계층 모델이 필요한 이유의 실증이었습니다. 셋을 뭉개서 "스펙"이라는 한 단어로
+      <div class="k"><span class="ko">의미</span><span class="en">What it means</span></div>
+      <p class="ko">이 불일치야말로 계층 모델이 필요한 이유의 실증이었습니다. 셋을 뭉개서 "스펙"이라는 한 단어로
          전달해 왔기 때문에 아무도 이 틈을 볼 수 없었던 것이고, 출처별로 분리해 나란히 놓는 순간
          틈이 표면으로 드러났습니다. <strong>표준화의 가치는 문서가 예뻐지는 게 아니라, 불일치가 보이게 되는 것</strong>입니다.</p>
+      <p class="en">That mismatch is the living proof of why the layered model matters. Because the three had
+         always been flattened into one word — "spec" — nobody could see the gap; the moment you separate them by
+         source and lay them side by side, it surfaces. <strong>The value of standardization is not prettier
+         documents — it is that mismatches become visible.</strong></p>
     </div>
   </div>
 
-  <div class="blk-t">EP.3 — 이해관계자 설득</div>
+  <div class="blk-t"><span class="ko">EP.3 — 이해관계자 설득</span><span class="en">EP.3 — Winning over stakeholders</span></div>
   <div class="story">
     <div class="story-step">
-      <div class="k">과정</div>
-      <p>"고객이 달라는 것"과 "우리가 줄 수 있는 것"과 "책임질 수 있는 것"이 서로 다른 상황에서,
+      <div class="k"><span class="ko">과정</span><span class="en">Process</span></div>
+      <p class="ko">"고객이 달라는 것"과 "우리가 줄 수 있는 것"과 "책임질 수 있는 것"이 서로 다른 상황에서,
          FW·DV·솔루션 각 조직이 자기 constraint의 의미와 한계를 인정하는 합의를 만드는 일이
          기술 작업만큼 컸습니다. 계층 모델은 이 협상의 언어이기도 했습니다 — 누구의 말이 틀렸다가 아니라,
          <strong>각자 다른 질문에 답하고 있었다</strong>는 프레임이 합의를 가능하게 했습니다.</p>
+      <p class="en">With "what the customer wants," "what we can provide," and "what we can stand behind" all
+         differing, building consensus — each of FW, DV, and Solution acknowledging what its constraint means and
+         where it ends — was as big as the technical work. The layered model doubled as the language of that
+         negotiation: not "someone is wrong," but <strong>"each of us was answering a different question"</strong> —
+         that frame is what made agreement possible.</p>
     </div>
   </div>
 </section>
 
 <footer>
-  <span><a href="toolchain.html">← HW-SW Co-Optimization Toolchain</a> · <a href="index.html">전체 포트폴리오</a></span>
-  <span>정유석 · 2026</span>
+  <span><a href="toolchain.html">← HW-SW Co-Optimization Toolchain</a> · <a href="index.html"><span class="ko">전체 포트폴리오</span><span class="en">Full portfolio</span></a></span>
+  <span><span class="ko">정유석 · 2026</span><span class="en">Yuseok Jeong · 2026</span></span>
 </footer>
 
 </div>
+<script>
+function setLang(l){document.body.dataset.lang=l;document.documentElement.lang=l;
+  document.querySelectorAll('a').forEach(function(a){var h=a.getAttribute('href')||'';
+    if(h.indexOf('.html')>-1){a.setAttribute('href',h.split('#')[0]+(l==='en'?'#en':''))}});}
+setLang(location.hash==='#en'?'en':'ko');
+window.addEventListener('hashchange',function(){setLang(location.hash==='#en'?'en':'ko')});
+</script>
 </body>
 </html>
